@@ -10,10 +10,9 @@
         .header { text-align: center; margin-bottom: 20px; }
         h1 { font-size: 2.2rem; color: var(--primary); margin: 0; letter-spacing: -1px; text-transform: uppercase; }
         
-        /* 최종 결과 박스 강화 */
         .total-rank-box { margin: 20px 0; padding: 20px 40px; border-radius: 20px; background: #1a1a1a; border: 2px solid #333; text-align: center; display: none; box-shadow: 0 0 30px rgba(255,62,62,0.1); transition: 0.5s; }
-        .total-rank-label { font-size: 0.9rem; color: #888; margin-bottom: 5px; }
-        .total-rank-value { font-size: 2rem; font-weight: 900; margin-bottom: 5px; }
+        .total-rank-label { font-size: 0.8rem; color: #888; margin-bottom: 5px; }
+        .total-rank-value { font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; }
         .total-rank-desc { font-size: 1rem; color: var(--primary); font-weight: 600; }
 
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; width: 100%; max-width: 1100px; }
@@ -21,23 +20,23 @@
         @media (max-width: 600px) { .grid { grid-template-columns: repeat(1, 1fr); } }
         
         .card { background: #151515; border: 1px solid #222; border-radius: 24px; padding: 20px 15px; text-align: center; position: relative; overflow: hidden; display: flex; flex-direction: column; transition: 0.3s; }
-        .card.active { border-color: #444; }
         .label { font-size: 0.75rem; color: #666; font-weight: 800; letter-spacing: 1.5px; margin-bottom: 12px; text-transform: uppercase; }
         
-        /* 등급 뱃지 디자인 보완 */
-        .rank-badge { position: absolute; top: 15px; right: 15px; font-size: 0.75rem; font-weight: 900; padding: 4px 10px; border-radius: 50px; display: none; z-index: 10; }
+        .rank-badge { position: absolute; top: 15px; right: 15px; font-size: 0.7rem; font-weight: 900; padding: 4px 10px; border-radius: 50px; display: none; z-index: 10; }
         
-        .img-container { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; background: #000; border-radius: 16px; overflow: hidden; }
-        .img-container img { max-width: 90%; max-height: 90%; object-fit: contain; }
+        .img-container { width: 100%; height: 130px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; background: #000; border-radius: 16px; overflow: hidden; position: relative; }
+        .img-container img { max-width: 90%; max-height: 90%; object-fit: contain; z-index: 2; transition: 0.3s; }
         
+        /* 이미지가 없을 때 뒤에 나올 텍스트 */
+        .img-placeholder { position: absolute; color: #222; font-weight: 900; font-size: 2rem; z-index: 1; }
+
         .value { font-size: 1.1rem; font-weight: 700; min-height: 50px; display: flex; align-items: center; justify-content: center; line-height: 1.3; color: #eee; padding: 0 5px; }
         
         .btn-draw { margin-top: 40px; padding: 22px 100px; font-size: 1.5rem; font-weight: 900; color: white; background: var(--primary); border: none; border-radius: 100px; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,62,62,0.3); }
         .btn-draw:hover { transform: scale(1.05); background: #ff5e5e; }
         .rolling { opacity: 0.3; filter: blur(3px); }
 
-        /* 등급별 색상 */
-        .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 10px rgba(255,207,64,0.5); }
+        .rank-S { background: var(--s-rank); color: #000; }
         .rank-A { background: var(--a-rank); color: #000; }
         .rank-B { background: var(--b-rank); color: #fff; }
         .rank-C { background: var(--c-rank); color: #fff; }
@@ -48,15 +47,15 @@
     <div class="header"><h1>ROAD BIKE DRAFT</h1></div>
     
     <div id="total-rank" class="total-rank-box">
-        <div class="total-rank-label">CONGRATULATIONS!</div>
+        <div class="total-rank-label">DRAFT COMPLETED</div>
         <div class="total-rank-value"><span id="rank-val">-</span></div>
-        <div id="rank-desc" class="total-rank-desc">문구 로딩 중...</div>
+        <div id="rank-desc" class="total-rank-desc">-</div>
     </div>
 
     <div class="grid">
-        <div class="card" id="card-f"><div class="rank-badge" id="r-f"></div><div class="label">Frame</div><div class="img-container"><img id="img-f" src="https://via.placeholder.com/300x200/151515/333333?text=FRAME"></div><div class="value" id="f">---</div></div>
-        <div class="card" id="card-g"><div class="rank-badge" id="r-g"></div><div class="label">Groupset</div><div class="img-container"><img id="img-g" src="https://via.placeholder.com/300x200/151515/333333?text=GROUPSET"></div><div class="value" id="g">---</div></div>
-        <div class="card" id="card-w"><div class="rank-badge" id="r-w"></div><div class="label">Wheelset</div><div class="img-container"><img id="img-w" src="https://via.placeholder.com/300x200/151515/333333?text=WHEELSET"></div><div class="value" id="w">---</div></div>
+        <div class="card" id="card-f"><div class="rank-badge" id="r-f"></div><div class="label">Frame</div><div class="img-container"><div class="img-placeholder">FRAME</div><img id="img-f" src="" onerror="this.style.display='none'"></div><div class="value" id="f">---</div></div>
+        <div class="card" id="card-g"><div class="rank-badge" id="r-g"></div><div class="label">Groupset</div><div class="img-container"><div class="img-placeholder">GROUPSET</div><img id="img-g" src="" onerror="this.style.display='none'"></div><div class="value" id="g">---</div></div>
+        <div class="card" id="card-w"><div class="rank-badge" id="r-w"></div><div class="label">Wheelset</div><div class="img-container"><div class="img-placeholder">WHEELSET</div><img id="img-w" src="" onerror="this.style.display='none'"></div><div class="value" id="w">---</div></div>
         <div class="card"><div class="label">Saddle</div><div class="value" id="s">---</div></div>
         <div class="card"><div class="label">Tire</div><div class="value" id="t">---</div></div>
         <div class="card"><div class="label">Pedal</div><div class="value" id="p">---</div></div>
@@ -65,15 +64,7 @@
     <button class="btn-draw" onclick="run()">DRAFT START</button>
 
     <script>
-        // 등급 이름 정의
-        const rankNames = {
-            "S": "최상급 기함",
-            "A": "상급 퍼포먼스",
-            "B": "중급 가성비",
-            "C": "입문/연습용"
-        };
-
-        // 최종 결과 문구
+        const rankNames = { "S": "최상급 기함", "A": "상급 퍼포먼스", "B": "중급 가성비", "C": "입문/연습용" };
         const finalDescriptions = {
             "S": "🏆 월드투어 프로팀 수준의 천상계 기함입니다!",
             "A": "🚀 동호인 상위 1%를 위한 강력한 레이싱 머신!",
@@ -85,23 +76,24 @@
             f: [
                 {n:"Specialized S-Works Tarmac SL8", r:"S", i:"https://bicycleline.kr/web/product/extra/big/202308/887b8d810892789f2f534720e5c9b93a.jpg"},
                 {n:"Pinarello Dogma F", r:"S", i:"https://i.ibb.co/L6S9Dkz/dogma-f.png"},
-                {n:"Cervelo S5 V3", r:"S", i:"https://images.squarespace-cdn.com/content/v1/593025239f7456cc18d363f0/1660682245237-U2W1V8Z3Z6Z3Z6Z3Z6Z3/Cervelo_S5_V3_Five_Black.png"},
+                {n:"Cervelo S5 V3", r:"S", i:"https://i.ibb.co/5M2hG3J/cervelo-s5.png"},
                 {n:"Colnago V4Rs", r:"S", i:"https://i.ibb.co/h7n0DHz/colnago-v4rs.png"},
                 {n:"Canyon Aeroad CFR", r:"S", i:"https://www.canyon.com/on/demandware.static/-/Sites-canyon-master/default/dw78d65377/images/full/full_2024_/2024/full_2024_aeroad-cfr-di2_3824_P01_gv.png"},
                 {n:"Factor OSTRO VAM", r:"S", i:"https://factorbikes.com/wp-content/uploads/2024/02/Factor_OstroVAM_Chrome_Front.png"},
                 {n:"BMC Teammachine SLR01", r:"S", i:"https://i.ibb.co/K2tS7zF/bmc-slr01.png"},
-                {n:"Giant TCR Advanced Pro", r:"B"}, {n:"Merida Scultura 400", r:"C"}
+                {n:"Giant TCR Advanced SL", r:"A"}, {n:"Merida Scultura 400", r:"C"}
             ],
             g: [
-                {n:"Dura-Ace R9270 Di2", r:"S", i:"https://bike.shimano.com/content/dam/productsite/shimano-bike/shimanocommon/product-images/DURA-ACE_R9200_m.png"},
+                {n:"Shimano Dura-Ace R9270 Di2", r:"S", i:"https://p.globalsources.com/IMAGES/PDT/BIG/516/B1194205516.jpg"},
                 {n:"SRAM RED AXS (2024)", r:"S", i:"https://www.sram.com/globalassets/image-hierarchy/sram-product-images/road/drivetrain/red-axs/groupset-red-axs-large.png"},
                 {n:"Ultegra R8170 Di2", r:"A"}
             ],
             w: [
-                {n:"Roval Rapide CLX 3", r:"S", i:"https://i.ibb.co/mH0G3k8/roval-rapide.png"},
-                {n:"Scope Artech 6", r:"S", i:"https://i.ibb.co/Xz9Qf7V/scope-artech.png"},
+                {n:"Roval Rapide CLX 3", r:"S", i:"https://images.specialized.com/integrated-media/69796e9d-f53e-4861-8f5f-14f7b640827f.png"},
+                {n:"Scope Artech 6", r:"S", i:"https://www.scopecycling.com/wp-content/uploads/2024/02/Artech-6-Front-Wheel.png"},
                 {n:"Zipp 454 NSW", r:"S", i:"https://i.ibb.co/YyY1q6d/zipp-454.png"},
-                {n:"Bora Ultra WTO 45", r:"S", i:"https://i.ibb.co/vYm0F4S/bora-ultra.png"}
+                {n:"Bora Ultra WTO 45", r:"S", i:"https://i.ibb.co/vYm0F4S/bora-ultra.png"},
+                {n:"Princeton Wake 7580", r:"S", i:"https://i.ibb.co/8XYvH6B/princeton.png"}
             ],
             s: ["S-Works Power Mirror", "Fizik Vento Argo", "Selle Italia SLR"],
             t: ["Continental GP5000 S TR", "Pirelli P ZERO Race"],
@@ -124,9 +116,11 @@
                 document.getElementById('f').innerText = f.n;
                 document.getElementById('g').innerText = g.n;
                 document.getElementById('w').innerText = w.n;
-                document.getElementById('img-f').src = f.i || "https://via.placeholder.com/300x200/151515/333333?text=ROAD+FRAME";
-                document.getElementById('img-g').src = g.i || "https://via.placeholder.com/300x200/151515/333333?text=GROUPSET";
-                document.getElementById('img-w').src = w.i || "https://via.placeholder.com/300x200/151515/333333?text=WHEELSET";
+                
+                // 이미지 업데이트 및 표시 여부 결정
+                updateImg('img-f', f.i);
+                updateImg('img-g', g.i);
+                updateImg('img-w', w.i);
 
                 document.getElementById('s').innerText = data.s[Math.floor(Math.random()*data.s.length)];
                 document.getElementById('t').innerText = data.t[Math.floor(Math.random()*data.t.length)] + " (" + data.size[Math.floor(Math.random()*data.size.length)] + ")";
@@ -144,6 +138,16 @@
             }, 70);
         }
 
+        function updateImg(id, src) {
+            const el = document.getElementById(id);
+            if(src) {
+                el.src = src;
+                el.style.display = 'block';
+            } else {
+                el.style.display = 'none';
+            }
+        }
+
         function showResult(f, g, w) {
             const parts = {f, g, w};
             let score = 0;
@@ -152,7 +156,7 @@
             for(let key in parts) {
                 const rankCode = parts[key].r || "C";
                 const badge = document.getElementById('r-' + key);
-                badge.innerText = rankCode + " | " + rankNames[rankCode]; // 등급 명칭 병기
+                badge.innerText = rankCode + " | " + rankNames[rankCode];
                 badge.className = 'rank-badge rank-' + rankCode;
                 badge.style.display = 'block';
                 score += scoreMap[rankCode];
