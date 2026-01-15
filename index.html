@@ -30,8 +30,6 @@
 
         .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 15px var(--s-rank); }
         .rank-A { background: var(--a-rank); color: #000; }
-        .rank-B { background: var(--b-rank); color: #fff; }
-        .rank-C { background: var(--c-rank); color: #fff; }
 
         .data-viewer { margin-top: 50px; width: 100%; max-width: 1100px; padding: 0 10px; box-sizing: border-box; }
         .roster-toggle-btn { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #888; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
@@ -59,9 +57,9 @@
         <div class="card" id="card-f"><div class="rank-badge" id="r-f"></div><div class="label">Frame</div><div class="value" id="f">---</div></div>
         <div class="card" id="card-w"><div class="rank-badge" id="r-w"></div><div class="label">Wheelset</div><div class="value" id="w">---</div></div>
         <div class="card" id="card-g"><div class="rank-badge" id="r-g"></div><div class="label">Groupset</div><div class="value" id="g">---</div></div>
-        <div class="card" id="card-s"><div class="label">Saddle</div><div class="value" id="s">---</div></div>
-        <div class="card" id="card-t"><div class="label">Tire</div><div class="value" id="t">---</div></div>
-        <div class="card" id="card-p"><div class="label">Pedal</div><div class="value" id="p">---</div></div>
+        <div class="card"><div class="label">Saddle</div><div class="value" id="s">---</div></div>
+        <div class="card"><div class="label">Tire</div><div class="value" id="t">---</div></div>
+        <div class="card"><div class="label">Pedal</div><div class="value" id="p">---</div></div>
     </div>
 
     <button class="btn-draw" onclick="run()">가즈아~</button>
@@ -78,7 +76,7 @@
     </div>
 
     <script>
-          const data = {
+        const data = {
             f: [
                	// Specialized
                 {n:"S-Works Tarmac SL8", r:"S"}, {n:"S-Works Aethos", r:"S"}, {n:"S-Works Roubaix SL8", r:"S"}, {n:"S-Works Shiv TT", r:"S"}, {n:"Specialized Tarmac SL8 Pro", r:"A"}, {n:"Specialized Aethos Pro", r:"A"}, {n:"Specialized Roubaix SL8 Expert", r:"A"}, {n:"Specialized Allez Sprint", r:"B"}, {n:"Specialized Allez E5", r:"C"},
@@ -175,15 +173,15 @@
             size: ["25C", "28C", "30C"]
         };
 
-        // 특정 카드에 뱃지 표시
+
         function setBadge(id, rank, hero) {
             const badge = document.getElementById('r-' + id);
+            if(!badge) return;
             badge.innerText = hero ? "⭐ " + hero.split(' ')[0] : rank;
             badge.className = 'rank-badge rank-' + rank;
             badge.style.display = 'block';
         }
 
-        // S급 연출 포함 부품 확정 함수
         async function finalizeCard(id, item, hero) {
             const el = document.getElementById(id);
             el.classList.remove('rolling');
@@ -195,8 +193,7 @@
                 await new Promise(r => setTimeout(r, 700));
                 el.innerHTML = `<span class="text-S">${item.n}</span>`;
             } else {
-                el.innerText = item.n;
-                el.style.color = (item.r === 'A') ? '#fff' : '#aaa';
+                el.innerHTML = `<span style="color:#aaa">[${item.r}] ${item.b} ${item.n}</span>`;
             }
             setBadge(id, item.r, hero);
         }
@@ -204,17 +201,13 @@
         async function run() {
             const btn = document.querySelector('.btn-draw');
             btn.disabled = true;
-            
-            // 초기화
             document.querySelectorAll('.rank-badge').forEach(el => el.style.display = 'none');
             document.getElementById('total-rank').style.display = 'none';
             document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.value').forEach(v => {
-                v.classList.add('rolling');
-                v.style.color = '#fff';
-            });
 
-            // 롤링 이펙트 시작
+            const values = document.querySelectorAll('.value');
+            values.forEach(v => v.classList.add('rolling'));
+
             const rollingInterval = setInterval(() => {
                 document.getElementById('f').innerText = data.f[Math.floor(Math.random()*data.f.length)].n;
                 document.getElementById('w').innerText = data.w[Math.floor(Math.random()*data.w.length)].n;
@@ -224,60 +217,42 @@
                 document.getElementById('p').innerText = data.p[Math.floor(Math.random()*data.p.length)];
             }, 60);
 
-            // 결과 값 미리 고정 (여기서 실제 등급 결정)
             const resF = data.f[Math.floor(Math.random()*data.f.length)];
             const resW = data.w[Math.floor(Math.random()*data.w.length)];
             const resG = data.g[Math.floor(Math.random()*data.g.length)];
-            const resS = data.s[Math.floor(Math.random()*data.s.length)];
-            const resT = data.t[Math.floor(Math.random()*data.t.length)] + " (" + data.size[Math.floor(Math.random()*data.size.length)] + ")";
-            const resP = data.p[Math.floor(Math.random()*data.p.length)];
 
-            // 히어로 체크
             let hero = null;
             const fn = resF.n.toLowerCase();
             const wn = resW.n.toLowerCase();
             if (fn.includes("colnago") && wn.includes("enve")) hero = "Tadej Pogačar (UAE)";
             else if (fn.includes("cervelo") && wn.includes("reserve")) hero = "Jonas Vingegaard (Visma)";
             else if (fn.includes("tarmac sl8") && wn.includes("roval")) hero = "Remco Evenepoel (Soudal)";
-            else if (fn.includes("madone") && wn.includes("bontrager")) hero = "Mads Pedersen (Trek)";
-            else if (fn.includes("dogma") && (fn.includes("shimano") || wn.includes("shimano"))) hero = "Tom Pidcock (INEOS)";
-            else if (fn.includes("aeroad") && (fn.includes("shimano") || wn.includes("shimano"))) hero = "Mathieu van der Poel (Alpecin)";
 
-            // 순차적 정지 연출 시작
-            await new Promise(r => setTimeout(r, 1000)); // 대기 후 시작
-            
-            // 1. 프레임
-            await finalizeCard('f', resF, (hero && (fn.includes("colnago") || fn.includes("cervelo") || fn.includes("tarmac") || fn.includes("madone") || fn.includes("dogma") || fn.includes("aeroad"))) ? hero : null);
-            
-            // 2. 휠셋
-            await new Promise(r => setTimeout(r, 500));
-            await finalizeCard('w', resW, (hero && (wn.includes("enve") || wn.includes("reserve") || wn.includes("roval") || wn.includes("bontrager") || wn.includes("shimano"))) ? hero : null);
+            await new Promise(r => setTimeout(r, 1000));
+            await finalizeCard('f', resF, (hero && (fn.includes("colnago") || fn.includes("cervelo") || fn.includes("tarmac"))) ? hero : null);
 
-            // 3. 그룹셋
-            await new Promise(r => setTimeout(r, 500));
+            await new Promise(r => setTimeout(r, 600));
+            await finalizeCard('w', resW, (hero && (wn.includes("enve") || wn.includes("reserve") || wn.includes("roval"))) ? hero : null);
+
+            await new Promise(r => setTimeout(r, 600));
             await finalizeCard('g', resG, null);
 
-            // 4. 나머지 한꺼번에 멈춤
             clearInterval(rollingInterval);
-            document.getElementById('s').innerText = resS;
-            document.getElementById('t').innerText = resT;
-            document.getElementById('p').innerText = resP;
+            document.getElementById('s').innerText = data.s[Math.floor(Math.random()*data.s.length)];
+            document.getElementById('t').innerText = data.t[Math.floor(Math.random()*data.t.length)];
+            document.getElementById('p').innerText = data.p[Math.floor(Math.random()*data.p.length)];
             document.querySelectorAll('.rolling').forEach(v => v.classList.remove('rolling'));
             
-            // 최종 결과창 표시
             showResult(resF, resG, resW, hero);
             btn.disabled = false;
         }
 
         function showResult(f, g, w, hero) {
             const scoreMap = { "S": 4, "A": 3, "B": 2, "C": 1 };
-            const score = scoreMap[f.r] + scoreMap[g.r] + scoreMap[w.r];
-            const avg = score / 3;
+            const avg = (scoreMap[f.r] + scoreMap[g.r] + scoreMap[w.r]) / 3;
             const finalRank = avg >= 3.7 ? "S" : avg >= 3.0 ? "A" : avg >= 2.0 ? "B" : "C";
-            
             const rVal = document.getElementById('rank-val');
             const rDesc = document.getElementById('rank-desc');
-            
             if (hero) {
                 rVal.innerText = "HERO CLASS";
                 rVal.className = "total-rank-value text-S";
@@ -285,7 +260,7 @@
             } else {
                 rVal.innerText = finalRank + " CLASS";
                 rVal.className = 'total-rank-value text-' + (finalRank === 'S' ? 'S' : '');
-                rDesc.innerText = finalRank === 'S' ? "🏆 천상계 기함 세팅 완료!" : finalRank === 'A' ? "🚀 상급 레이싱!" : "🚴 즐거운 라이딩 되세요!";
+                rDesc.innerText = finalRank === 'S' ? "🏆 천상계 기함 세팅 완료!" : "🚴 즐거운 라이딩 되세요!";
             }
             document.getElementById('total-rank').style.display = 'block';
             document.querySelectorAll('.card').forEach(c => c.classList.add('active'));
