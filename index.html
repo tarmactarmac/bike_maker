@@ -3,89 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Bike Draft - FIFA Style</title>
+    <title>Ultimate Bike Draft</title>
     <style>
         :root { --primary: #ff3e3e; --s-rank: #ffcf40; --a-rank: #e2e2e2; --b-rank: #cd7f32; --c-rank: #7a7a7a; }
-        body { background: #000; color: white; font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; }
+        body { background: #0a0a0a; color: white; font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; }
+        .header { text-align: center; margin-bottom: 15px; }
+        h1 { font-size: 1.6rem; color: var(--primary); margin: 0; letter-spacing: -1px; text-transform: uppercase; font-weight: 900; }
         
-        .header h1 { font-size: 1.8rem; color: #fff; margin: 20px 0; text-transform: uppercase; font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 10px var(--primary); }
+        .total-rank-box { margin-bottom: 20px; padding: 15px 30px; border-radius: 20px; background: #1a1a1a; border: 2px solid #333; text-align: center; display: none; width: 100%; max-width: 500px; box-sizing: border-box; }
+        .total-rank-value { font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; line-height: 1; }
+        .total-rank-desc { font-size: 0.85rem; color: var(--primary); font-weight: 600; }
 
-        /* 피파 카드 스타일 */
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 1100px; }
-        .card { 
-            background: linear-gradient(135deg, #111 0%, #222 100%); 
-            border: 2px solid #333; 
-            border-radius: 12px; 
-            padding: 15px 10px; 
-            text-align: center; 
-            position: relative; 
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            height: 120px; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center;
-            overflow: hidden;
-        }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 1100px; }
+        .card { background: #151515; border: 1px solid #222; border-radius: 15px; padding: 12px 8px; text-align: center; position: relative; transition: 0.2s; display: flex; flex-direction: column; justify-content: center; height: 100px; box-sizing: border-box; overflow: hidden; }
+        .card.active { border-color: #444; background: #1c1c1c; }
+        .label { font-size: 0.6rem; color: #555; font-weight: 800; margin-bottom: 5px; text-transform: uppercase; }
+        .rank-badge { position: absolute; top: 8px; right: 8px; font-size: 0.55rem; font-weight: 900; padding: 2px 6px; border-radius: 50px; display: none; z-index: 10; }
+        .value { font-size: 0.78rem; font-weight: 700; line-height: 1.2; color: #fff; word-break: keep-all; min-height: 2.5em; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
 
-        /* S급 당첨 시 카드 연출 */
-        .card.s-win { 
-            border-color: var(--s-rank); 
-            box-shadow: 0 0 25px rgba(255, 207, 64, 0.4); 
-            animation: shake 0.5s ease-in-out; 
-        }
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px) rotate(-1deg); }
-            75% { transform: translateX(5px) rotate(1deg); }
-        }
+        .rolling { opacity: 0.4; filter: blur(2px); transform: scale(0.95); }
+        .text-S { color: var(--s-rank); font-weight: 900; text-shadow: 0 0 10px rgba(255, 207, 64, 0.5); animation: flash 0.5s infinite alternate; }
+        @keyframes flash { from { opacity: 0.7; } to { opacity: 1; } }
 
-        .label { font-size: 0.65rem; color: #777; font-weight: 800; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .value { font-size: 0.85rem; font-weight: 800; line-height: 1.3; color: #fff; min-height: 3em; display: flex; align-items: center; justify-content: center; z-index: 2; }
+        .btn-draw { margin-top: 30px; padding: 18px 80px; font-size: 1.4rem; font-weight: 900; color: white; background: var(--primary); border: none; border-radius: 100px; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(255,62,62,0.3); }
+        .btn-draw:disabled { background: #333; cursor: not-allowed; box-shadow: none; }
 
-        /* 랭크 뱃지 - 피파의 능력치 오버롤 느낌 */
-        .rank-badge { 
-            position: absolute; top: 8px; left: 8px; 
-            font-size: 0.7rem; font-weight: 900; 
-            padding: 4px 8px; border-radius: 4px; 
-            display: none; z-index: 10; 
-        }
+        .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 15px var(--s-rank); }
+        .rank-A { background: var(--a-rank); color: #000; }
 
-        /* 애니메이션 효과 */
-        .rolling { opacity: 0.3; filter: blur(3px); transform: translateY(5px); }
-        .text-S { 
-            color: var(--s-rank); font-weight: 900; font-size: 1.1rem;
-            text-shadow: 0 0 15px var(--s-rank);
-            animation: glow 0.8s infinite alternate;
-        }
-        @keyframes glow { from { opacity: 0.8; transform: scale(0.98); } to { opacity: 1; transform: scale(1.05); } }
-
-        /* 하단 결과창 */
-        .total-rank-box { margin: 25px 0; padding: 20px; border-radius: 15px; background: rgba(255,255,255,0.05); border: 1px solid #333; text-align: center; display: none; width: 100%; max-width: 500px; }
-        .total-rank-value { font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; font-style: italic; }
-
-        .btn-draw { 
-            margin-top: 20px; padding: 18px 80px; 
-            font-size: 1.5rem; font-weight: 900; color: white; 
-            background: linear-gradient(to right, #ff3e3e, #ff6b6b); 
-            border: none; border-radius: 50px; cursor: pointer; 
-            transition: 0.3s; box-shadow: 0 10px 20px rgba(255, 62, 62, 0.3);
-        }
-        .btn-draw:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 25px rgba(255, 62, 62, 0.4); }
-        .btn-draw:disabled { background: #444; box-shadow: none; cursor: not-allowed; }
-
-        /* 리스트 스타일 */
-        .data-viewer { margin-top: 40px; width: 100%; max-width: 1100px; padding: 0 10px; }
-        .roster-toggle-btn { width: 100%; background: #111; border: 1px solid #333; color: #555; padding: 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; }
-        .roster-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; background: #080808; }
+        .data-viewer { margin-top: 50px; width: 100%; max-width: 1100px; padding: 0 10px; box-sizing: border-box; }
+        .roster-toggle-btn { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #888; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
+        .roster-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #111; border-radius: 0 0 12px 12px; }
         .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; }
-        .data-item { display: flex; justify-content: space-between; border-bottom: 1px solid #1a1a1a; padding: 5px 0; font-size: 0.7rem; }
+        .data-list { font-size: 0.7rem; color: #aaa; max-height: 300px; overflow-y: auto; border-top: 1px solid #222; }
+        .data-item { display: flex; justify-content: space-between; border-bottom: 1px solid #1a1a1a; padding: 6px 0; }
         .rank-S-txt { color: var(--s-rank); font-weight: bold; }
 
-        @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } .data-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .data-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <div class="header"><h1>ROAD BIKE PACK OPENING</h1></div>
+    <div class="header"><h1>너만의 자전거로 너만의 라이딩을 해</h1></div>
     
     <div id="total-rank" class="total-rank-box">
         <div class="total-rank-value" id="rank-val">-</div>
@@ -93,29 +54,29 @@
     </div>
 
     <div class="grid">
-        <div class="card" id="card-f"><div class="rank-badge" id="r-f"></div><div class="label">FRAME</div><div class="value" id="f">---</div></div>
-        <div class="card" id="card-w"><div class="rank-badge" id="r-w"></div><div class="label">WHEELSET</div><div class="value" id="w">---</div></div>
-        <div class="card" id="card-g"><div class="rank-badge" id="r-g"></div><div class="label">GROUPSET</div><div class="value" id="g">---</div></div>
-        <div class="card"><div class="label">SADDLE</div><div class="value" id="s">---</div></div>
-        <div class="card"><div class="label">TIRE</div><div class="value" id="t">---</div></div>
-        <div class="card"><div class="label">PEDAL</div><div class="value" id="p">---</div></div>
+        <div class="card" id="card-f"><div class="rank-badge" id="r-f"></div><div class="label">Frame</div><div class="value" id="f">---</div></div>
+        <div class="card" id="card-w"><div class="rank-badge" id="r-w"></div><div class="label">Wheelset</div><div class="value" id="w">---</div></div>
+        <div class="card" id="card-g"><div class="rank-badge" id="r-g"></div><div class="label">Groupset</div><div class="value" id="g">---</div></div>
+        <div class="card"><div class="label">Saddle</div><div class="value" id="s">---</div></div>
+        <div class="card"><div class="label">Tire</div><div class="value" id="t">---</div></div>
+        <div class="card"><div class="label">Pedal</div><div class="value" id="p">---</div></div>
     </div>
 
-    <button class="btn-draw" onclick="run()">OPEN PACK</button>
+    <button class="btn-draw" onclick="run()">가즈아~</button>
 
     <div class="data-viewer">
-        <button class="roster-toggle-btn" onclick="toggleRoster()">SHOW ALL CARDS IN PACK</button>
+        <button class="roster-toggle-btn" onclick="toggleRoster()">전체 로스터 리스트 보기</button>
         <div id="roster-content" class="roster-content">
             <div class="data-grid">
-                <div class="data-column"><h3>FRAMES (<span id="count-f">0</span>)</h3><div id="list-f" class="data-list"></div></div>
-                <div class="data-column"><h3>WHEELS (<span id="count-w">0</span>)</h3><div id="list-w" class="data-list"></div></div>
-                <div class="data-column"><h3>DRIVETRAIN (<span id="count-g">0</span>)</h3><div id="list-g" class="data-list"></div></div>
+                <div class="data-column"><h3>프레임 (<span id="count-f">0</span>)</h3><div id="list-f" class="data-list"></div></div>
+                <div class="data-column"><h3>휠셋 (<span id="count-w">0</span>)</h3><div id="list-w" class="data-list"></div></div>
+                <div class="data-column"><h3>그룹셋 (<span id="count-g">0</span>)</h3><div id="list-g" class="data-list"></div></div>
             </div>
         </div>
     </div>
 
     <script>
-              const data = {
+        const data = {
     f: [
         // Specialized
         {b:"Specialized", n:"S-Works Tarmac SL8", r:"S"}, {b:"Specialized", n:"S-Works Aethos", r:"S"}, {b:"Specialized", n:"S-Works Roubaix SL8", r:"S"}, {b:"Specialized", n:"S-Works Shiv TT", r:"S"}, {b:"Specialized", n:"Tarmac SL8 Pro", r:"A"}, {b:"Specialized", n:"Aethos Pro", r:"A"}, {b:"Specialized", n:"Roubaix SL8 Expert", r:"A"}, {b:"Specialized", n:"Allez Sprint", r:"B"}, {b:"Specialized", n:"Allez E5", r:"C"},
@@ -211,92 +172,98 @@
             p: ["Shimano Dura-Ace PD-R9100", "Shimano Ultegra PD-R8000", "Shimano 105 PD-R7000", "Look Keo Blade Carbon Ti", "Look Keo Classic 3", "Wahoo Speedplay Zero Nano", "Wahoo Speedplay Zero", "Time Xpro 15 Carbon", "Time Xpresso 7", "Garmin Rally RS200 (Power)", "Favero Assioma Duo (Power)", "Shimano PD-RS500"],
             size: ["25C", "28C", "30C"]
         };
-        async function finalizeCard(cardId, valId, item, hero) {
-            const card = document.getElementById(cardId);
-            const valEl = document.getElementById(valId);
-            valEl.classList.remove('rolling');
+
+
+        function setBadge(id, rank, hero) {
+            const badge = document.getElementById('r-' + id);
+            if(!badge) return;
+            badge.innerText = hero ? "⭐ " + hero.split(' ')[0] : rank;
+            badge.className = 'rank-badge rank-' + rank;
+            badge.style.display = 'block';
+        }
+
+        async function finalizeCard(id, item, hero) {
+            const el = document.getElementById(id);
+            el.classList.remove('rolling');
             
             if (item.r === 'S') {
-                card.classList.add('s-win'); // S급 당첨 연출 (흔들기 + 빛)
-                valEl.innerHTML = `<span class="text-S">RANK: S</span>`;
-                await new Promise(r => setTimeout(r, 800));
-                valEl.innerHTML = `<span class="text-S">${item.b}</span>`;
-                await new Promise(r => setTimeout(r, 800));
-                valEl.innerHTML = `<span class="text-S">${item.n}</span>`;
+                el.innerHTML = `<span class="text-S">RANK: S</span>`;
+                await new Promise(r => setTimeout(r, 700));
+                el.innerHTML = `<span class="text-S">${item.b}</span>`;
+                await new Promise(r => setTimeout(r, 700));
+                el.innerHTML = `<span class="text-S">${item.n}</span>`;
             } else {
-                valEl.innerHTML = `<span style="color:#eee; font-weight:700;">[${item.r}] ${item.b} ${item.n}</span>`;
+                el.innerHTML = `<span style="color:#aaa">[${item.r}] ${item.b} ${item.n}</span>`;
             }
-
-            const badge = document.getElementById('r-' + valId);
-            if(badge) {
-                badge.innerText = hero ? "⭐ " + hero.split(' ')[0] : item.r;
-                badge.className = 'rank-badge rank-' + item.r;
-                badge.style.display = 'block';
-            }
+            setBadge(id, item.r, hero);
         }
 
         async function run() {
             const btn = document.querySelector('.btn-draw');
             btn.disabled = true;
-            
-            // UI 초기화
-            document.querySelectorAll('.rank-badge').forEach(e => e.style.display = 'none');
-            document.querySelectorAll('.card').forEach(e => { e.classList.remove('s-win'); e.style.borderColor = '#333'; });
+            document.querySelectorAll('.rank-badge').forEach(el => el.style.display = 'none');
             document.getElementById('total-rank').style.display = 'none';
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
 
-            const rollingEls = document.querySelectorAll('.value');
-            rollingEls.forEach(v => v.classList.add('rolling'));
+            const values = document.querySelectorAll('.value');
+            values.forEach(v => v.classList.add('rolling'));
 
-            // 롤링 이펙트
-            const interval = setInterval(() => {
+            const rollingInterval = setInterval(() => {
                 document.getElementById('f').innerText = data.f[Math.floor(Math.random()*data.f.length)].n;
                 document.getElementById('w').innerText = data.w[Math.floor(Math.random()*data.w.length)].n;
                 document.getElementById('g').innerText = data.g[Math.floor(Math.random()*data.g.length)].n;
                 document.getElementById('s').innerText = data.s[Math.floor(Math.random()*data.s.length)];
                 document.getElementById('t').innerText = data.t[Math.floor(Math.random()*data.t.length)];
                 document.getElementById('p').innerText = data.p[Math.floor(Math.random()*data.p.length)];
-            }, 50);
+            }, 60);
 
-            // 결과 선정
             const resF = data.f[Math.floor(Math.random()*data.f.length)];
             const resW = data.w[Math.floor(Math.random()*data.w.length)];
             const resG = data.g[Math.floor(Math.random()*data.g.length)];
 
-            // 히어로 체크
             let hero = null;
-            const fn = resF.n.toLowerCase(); const wn = resW.n.toLowerCase();
-            if (fn.includes("colnago") && wn.includes("enve")) hero = "Tadej Pogačar";
-            else if (fn.includes("cervelo") && wn.includes("reserve")) hero = "Jonas Vingegaard";
-            else if (fn.includes("tarmac sl8") && wn.includes("roval")) hero = "Remco Evenepoel";
+            const fn = resF.n.toLowerCase();
+            const wn = resW.n.toLowerCase();
+            if (fn.includes("colnago") && wn.includes("enve")) hero = "Tadej Pogačar (UAE)";
+            else if (fn.includes("cervelo") && wn.includes("reserve")) hero = "Jonas Vingegaard (Visma)";
+            else if (fn.includes("tarmac sl8") && wn.includes("roval")) hero = "Remco Evenepoel (Soudal)";
 
-            // 순차적 공개 (피파 팩 개봉 느낌)
-            await new Promise(r => setTimeout(r, 1200));
-            await finalizeCard('card-f', 'f', resF, (hero && (fn.includes("colnago")||fn.includes("cervelo")||fn.includes("tarmac"))) ? hero : null);
-
-            await new Promise(r => setTimeout(r, 600));
-            await finalizeCard('card-w', 'w', resW, (hero && (wn.includes("enve")||wn.includes("reserve")||wn.includes("roval"))) ? hero : null);
+            await new Promise(r => setTimeout(r, 1000));
+            await finalizeCard('f', resF, (hero && (fn.includes("colnago") || fn.includes("cervelo") || fn.includes("tarmac"))) ? hero : null);
 
             await new Promise(r => setTimeout(r, 600));
-            await finalizeCard('card-g', 'g', resG, null);
+            await finalizeCard('w', resW, (hero && (wn.includes("enve") || wn.includes("reserve") || wn.includes("roval"))) ? hero : null);
 
-            clearInterval(interval);
+            await new Promise(r => setTimeout(r, 600));
+            await finalizeCard('g', resG, null);
+
+            clearInterval(rollingInterval);
             document.getElementById('s').innerText = data.s[Math.floor(Math.random()*data.s.length)];
             document.getElementById('t').innerText = data.t[Math.floor(Math.random()*data.t.length)];
             document.getElementById('p').innerText = data.p[Math.floor(Math.random()*data.p.length)];
             document.querySelectorAll('.rolling').forEach(v => v.classList.remove('rolling'));
-
-            // 최종 랭크 계산 및 표시
-            const score = {S:4, A:3, B:2, C:1};
-            const avg = (score[resF.r]+score[resW.r]+score[resG.r])/3;
-            const finalR = avg >= 3.7 ? "S" : avg >= 3 ? "A" : avg >= 2 ? "B" : "C";
             
-            const rVal = document.getElementById('rank-val');
-            rVal.innerText = hero ? "HERO CLASS" : finalR + " CLASS";
-            rVal.style.color = (finalR==='S' || hero) ? "var(--s-rank)" : "#fff";
-            document.getElementById('rank-desc').innerText = hero ? `🔥 LEGENDARY: ${hero}` : "DRAFT COMPLETED";
-            document.getElementById('total-rank').style.display = 'block';
-
+            showResult(resF, resG, resW, hero);
             btn.disabled = false;
+        }
+
+        function showResult(f, g, w, hero) {
+            const scoreMap = { "S": 4, "A": 3, "B": 2, "C": 1 };
+            const avg = (scoreMap[f.r] + scoreMap[g.r] + scoreMap[w.r]) / 3;
+            const finalRank = avg >= 3.7 ? "S" : avg >= 3.0 ? "A" : avg >= 2.0 ? "B" : "C";
+            const rVal = document.getElementById('rank-val');
+            const rDesc = document.getElementById('rank-desc');
+            if (hero) {
+                rVal.innerText = "HERO CLASS";
+                rVal.className = "total-rank-value text-S";
+                rDesc.innerText = `🔥 전설의 탄생! ${hero} 세팅!`;
+            } else {
+                rVal.innerText = finalRank + " CLASS";
+                rVal.className = 'total-rank-value text-' + (finalRank === 'S' ? 'S' : '');
+                rDesc.innerText = finalRank === 'S' ? "🏆 천상계 기함 세팅 완료!" : "🚴 즐거운 라이딩 되세요!";
+            }
+            document.getElementById('total-rank').style.display = 'block';
+            document.querySelectorAll('.card').forEach(c => c.classList.add('active'));
         }
 
         function toggleRoster() {
@@ -305,13 +272,13 @@
         }
 
         function init() {
-            const cfgs = [{k:'f',l:'list-f',c:'count-f'},{k:'w',l:'list-w',c:'count-w'},{k:'g',l:'list-g',c:'count-g'}];
-            cfgs.forEach(cfg => {
-                document.getElementById(cfg.c).innerText = data[cfg.k].length;
-                document.getElementById(cfg.l).innerHTML = data[cfg.k].map(i => `
+            const configs = [{k:'f', l:'list-f', c:'count-f'}, {k:'w', l:'list-w', c:'count-w'}, {k:'g', l:'list-g', c:'count-g'}];
+            configs.forEach(conf => {
+                document.getElementById(conf.c).innerText = data[conf.k].length;
+                document.getElementById(conf.l).innerHTML = data[conf.k].map(i => `
                     <div class="data-item">
-                        <span class="${i.r==='S'?'rank-S-txt':''}">[${i.b}] ${i.n}</span>
-                        <span>${i.r}</span>
+                        <span class="${i.r==='S'?'rank-S-txt':''}">${i.b} ${i.n}</span>
+                        <span style="opacity:0.3;font-size:0.6rem;">${i.r}</span>
                     </div>`).join('');
             });
         }
@@ -319,4 +286,3 @@
     </script>
 </body>
 </html>
-
