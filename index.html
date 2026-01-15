@@ -3,53 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Bike Draft - Brand Update</title>
+    <title>Ultimate Bike Draft - FIFA Pack Edition</title>
     <style>
         :root { --primary: #ff3e3e; --s-rank: #ffcf40; --a-rank: #e2e2e2; --b-rank: #cd7f32; --c-rank: #7a7a7a; }
         body { background: #000; color: white; font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; }
         
-        .header h1 { font-size: 1.6rem; color: var(--primary); margin: 20px 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1px; }
+        .header h1 { font-size: 1.6rem; color: var(--primary); margin: 20px 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1px; text-shadow: 0 0 10px rgba(255, 62, 62, 0.5); }
 
-        /* 결과 박스 */
         .total-rank-box { margin-bottom: 20px; padding: 15px 30px; border-radius: 20px; background: #1a1a1a; border: 2px solid #333; text-align: center; display: none; width: 100%; max-width: 500px; box-sizing: border-box; }
-        .total-rank-value { font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; line-height: 1; }
-        .total-rank-desc { font-size: 0.85rem; color: var(--primary); font-weight: 600; }
+        .total-rank-value { font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; line-height: 1; }
+        .total-rank-desc { font-size: 0.9rem; color: var(--primary); font-weight: 600; }
 
-        /* 그리드 및 카드 */
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 1100px; }
-        .card { background: #151515; border: 1px solid #222; border-radius: 15px; padding: 12px 8px; text-align: center; position: relative; transition: 0.2s; display: flex; flex-direction: column; justify-content: center; height: 110px; box-sizing: border-box; overflow: hidden; }
-        .card.active { border-color: #444; background: #1c1c1c; }
-        
-        /* 텍스트 스타일 */
-        .label { font-size: 0.6rem; color: #555; font-weight: 800; margin-bottom: 5px; text-transform: uppercase; }
-        .brand-text { font-size: 0.65rem; color: #888; margin-bottom: 2px; font-weight: 600; display: block; } /* 제조사 전용 스타일 */
-        .value { font-size: 0.78rem; font-weight: 700; line-height: 1.2; color: #fff; word-break: keep-all; min-height: 2.5em; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: 0.2s; }
+        .card { background: linear-gradient(145deg, #151515, #0a0a0a); border: 1px solid #222; border-radius: 15px; padding: 12px 8px; text-align: center; position: relative; transition: all 0.3s; display: flex; flex-direction: column; justify-content: center; height: 115px; box-sizing: border-box; overflow: hidden; }
+        .card.active { border-color: #444; background: #111; }
+        .card.s-win { border-color: var(--s-rank); box-shadow: 0 0 20px rgba(255, 207, 64, 0.3); animation: shake 0.4s ease-in-out; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px) rotate(-1deg); }
+            75% { transform: translateX(4px) rotate(1deg); }
+        }
+
+        .label { font-size: 0.6rem; color: #555; font-weight: 800; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        .brand-text { font-size: 0.65rem; color: #888; font-weight: 600; margin-bottom: 2px; }
+        .value { font-size: 0.8rem; font-weight: 700; line-height: 1.2; color: #fff; word-break: keep-all; min-height: 3em; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
         .rank-badge { position: absolute; top: 8px; right: 8px; font-size: 0.55rem; font-weight: 900; padding: 2px 6px; border-radius: 50px; display: none; z-index: 10; }
-
-        /* 애니메이션 */
-        .rolling { opacity: 0.4; filter: blur(2px); transform: scale(0.95); }
+        .rolling { opacity: 0.4; filter: blur(2px); }
         .text-S { color: var(--s-rank); font-weight: 900; text-shadow: 0 0 10px rgba(255, 207, 64, 0.5); animation: flash 0.5s infinite alternate; }
         @keyframes flash { from { opacity: 0.7; } to { opacity: 1; } }
 
-        .btn-draw { margin-top: 30px; padding: 18px 80px; font-size: 1.4rem; font-weight: 900; color: white; background: var(--primary); border: none; border-radius: 100px; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(255,62,62,0.3); }
+        .btn-draw { margin-top: 30px; padding: 18px 80px; font-size: 1.5rem; font-weight: 900; color: white; background: var(--primary); border: none; border-radius: 100px; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(255,62,62,0.3); }
         .btn-draw:disabled { background: #333; cursor: not-allowed; box-shadow: none; }
 
-        .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 15px var(--s-rank); }
+        .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 10px var(--s-rank); }
         .rank-A { background: var(--a-rank); color: #000; }
+        .rank-B { background: var(--b-rank); color: #fff; }
+        .rank-C { background: var(--c-rank); color: #fff; }
 
         /* 하단 로스터 리스트 */
         .data-viewer { margin-top: 50px; width: 100%; max-width: 1100px; padding: 0 10px; box-sizing: border-box; }
         .roster-toggle-btn { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #888; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
-        .roster-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #111; border-radius: 0 0 12px 12px; }
+        .roster-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #080808; border-radius: 0 0 12px 12px; }
         .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; }
-        .data-item { display: flex; justify-content: space-between; border-bottom: 1px solid #1a1a1a; padding: 6px 0; font-size: 0.7rem; }
+        .data-list { font-size: 0.7rem; color: #aaa; max-height: 300px; overflow-y: auto; border-top: 1px solid #222; }
+        .data-item { display: flex; justify-content: space-between; border-bottom: 1px solid #1a1a1a; padding: 6px 0; }
         .rank-S-txt { color: var(--s-rank); font-weight: bold; }
 
-        @media (max-width: 768px) {
-            .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-            .data-grid { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } .data-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -61,18 +63,28 @@
     </div>
 
     <div class="grid">
-        <div class="card" id="card-f"><div class="rank-badge" id="r-f"></div><div class="label">Frame</div><div class="value" id="f"><span class="brand-text">---</span><span class="model-text">---</span></div></div>
-        <div class="card" id="card-w"><div class="rank-badge" id="r-w"></div><div class="label">Wheelset</div><div class="value" id="w"><span class="brand-text">---</span><span class="model-text">---</span></div></div>
-        <div class="card" id="card-g"><div class="rank-badge" id="r-g"></div><div class="label">Groupset</div><div class="value" id="g"><span class="brand-text">---</span><span class="model-text">---</span></div></div>
+        <div class="card" id="card-f"><div class="rank-badge" id="r-f"></div><div class="label">Frame</div><div class="value" id="f">---</div></div>
+        <div class="card" id="card-w"><div class="rank-badge" id="r-w"></div><div class="label">Wheelset</div><div class="value" id="w">---</div></div>
+        <div class="card" id="card-g"><div class="rank-badge" id="r-g"></div><div class="label">Groupset</div><div class="value" id="g">---</div></div>
         <div class="card"><div class="label">Saddle</div><div class="value" id="s">---</div></div>
         <div class="card"><div class="label">Tire</div><div class="value" id="t">---</div></div>
         <div class="card"><div class="label">Pedal</div><div class="value" id="p">---</div></div>
     </div>
 
-    <button class="btn-draw" onclick="run()">가즈아~</button>
+    <button class="btn-draw" onclick="run()">DRAFT START</button>
+
+    <div class="data-viewer">
+        <button class="roster-toggle-btn" onclick="toggleRoster()">전체 로스터 리스트 보기</button>
+        <div id="roster-content" class="roster-content">
+            <div class="data-grid">
+                <div class="data-column"><h3>프레임 (<span id="count-f">0</span>)</h3><div id="list-f" class="data-list"></div></div>
+                <div class="data-column"><h3>휠셋 (<span id="count-w">0</span>)</h3><div id="list-w" class="data-list"></div></div>
+                <div class="data-column"><h3>그룹셋 (<span id="count-g">0</span>)</h3><div id="list-g" class="data-list"></div></div>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // ... (data 객체는 기존에 제조사 b 가 포함된 최신 버전 사용)
         const data = {
     f: [
         // Specialized
@@ -169,118 +181,111 @@
             p: ["Shimano Dura-Ace PD-R9100", "Shimano Ultegra PD-R8000", "Shimano 105 PD-R7000", "Look Keo Blade Carbon Ti", "Look Keo Classic 3", "Wahoo Speedplay Zero Nano", "Wahoo Speedplay Zero", "Time Xpro 15 Carbon", "Time Xpresso 7", "Garmin Rally RS200 (Power)", "Favero Assioma Duo (Power)", "Shimano PD-RS500"],
             size: ["25C", "28C", "30C"]
         };
-        // S급 등장 연출 (등급 -> 제조사 -> 모델) - 순차적 대기 보강
-        async function finalizeCard(id, item, hero) {
-            const el = document.getElementById(id);
-            el.classList.remove('rolling');            
+
+        function setBadge(id, rank, hero) {
+            const badge = document.getElementById('r-' + id);
+            if(!badge) return;
+            badge.innerText = hero ? "⭐ " + hero.split(' ')[0] : rank;
+            badge.className = 'rank-badge rank-' + rank;
+            badge.style.display = 'block';
+        }
+
+        async function finalizeCard(cardId, valId, item, hero) {
+            const card = document.getElementById(cardId);
+            const el = document.getElementById(valId);
+            el.classList.remove('rolling');
+            
             if (item.r === 'S') {
-                // 1단계: 등급
+                card.classList.add('s-win');
                 el.innerHTML = `<span class="text-S">RANK: S</span>`;
                 await new Promise(r => setTimeout(r, 700));
-                // 2단계: 제조사
                 el.innerHTML = `<span class="text-S">${item.b}</span>`;
                 await new Promise(r => setTimeout(r, 700));
-                // 3단계: 모델명
                 el.innerHTML = `<span class="text-S">${item.n}</span>`;
             } else {
-                // 일반 등급: 제조사와 모델명을 위아래로 깔끔하게 표기
-                el.innerHTML = `<span class="brand-text">${item.b}</span><span class="model-text" style="color:#eee">[${item.r}] ${item.n}</span>`;
+                el.innerHTML = `<span class="brand-text">${item.b}</span><span style="color:#eee">[${item.r}] ${item.n}</span>`;
             }
-            
-            const badge = document.getElementById('r-' + id);
-            if(badge) {
-                badge.innerText = hero ? "⭐ " + hero.split(' ')[0] : item.r;
-                badge.className = 'rank-badge rank-' + item.r;
-                badge.style.display = 'block';
-            }
+            setBadge(valId, item.r, hero);
         }
 
         async function run() {
             const btn = document.querySelector('.btn-draw');
             btn.disabled = true;
-            
-            // 초기화
-            document.querySelectorAll('.rank-badge').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.rank-badge').forEach(e => e.style.display = 'none');
+            document.querySelectorAll('.card').forEach(e => {e.classList.remove('s-win', 'active')});
             document.getElementById('total-rank').style.display = 'none';
-            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.value').forEach(v => v.classList.add('rolling'));
 
-            // 롤링 시작
+            const values = document.querySelectorAll('.value');
+            values.forEach(v => v.classList.add('rolling'));
+
             const rollingInterval = setInterval(() => {
-                const rf = data.f[Math.floor(Math.random()*data.f.length)];
-                const rw = data.w[Math.floor(Math.random()*data.w.length)];
-                const rg = data.g[Math.floor(Math.random()*data.g.length)];
-                document.getElementById('f').innerHTML = `<span class="brand-text">${rf.b}</span><span>${rf.n}</span>`;
-                document.getElementById('w').innerHTML = `<span class="brand-text">${rw.b}</span><span>${rw.n}</span>`;
-                document.getElementById('g').innerHTML = `<span class="brand-text">${rg.b}</span><span>${rg.n}</span>`;
+                document.getElementById('f').innerText = data.f[Math.floor(Math.random()*data.f.length)].n;
+                document.getElementById('w').innerText = data.w[Math.floor(Math.random()*data.w.length)].n;
+                document.getElementById('g').innerText = data.g[Math.floor(Math.random()*data.g.length)].n;
                 document.getElementById('s').innerText = data.s[Math.floor(Math.random()*data.s.length)];
                 document.getElementById('t').innerText = data.t[Math.floor(Math.random()*data.t.length)];
                 document.getElementById('p').innerText = data.p[Math.floor(Math.random()*data.p.length)];
             }, 60);
 
-          // 1. 결과값 미리 선정
             const resF = data.f[Math.floor(Math.random()*data.f.length)];
             const resW = data.w[Math.floor(Math.random()*data.w.length)];
             const resG = data.g[Math.floor(Math.random()*data.g.length)];
-            const resS = data.s[Math.floor(Math.random()*data.s.length)];
-            const resT = data.t[Math.floor(Math.random()*data.t.length)];
-            const resP = data.p[Math.floor(Math.random()*data.p.length)];
-        
-            // 2. 히어로 체크
+
             let hero = null;
-            const fn = resF.n.toLowerCase();
-            const wn = resW.n.toLowerCase();
-            if (fn.includes("colnago") && wn.includes("enve")) hero = "Tadej Pogačar (UAE)";
-            else if (fn.includes("cervelo") && wn.includes("reserve")) hero = "Jonas Vingegaard (Visma)";
-            else if (fn.includes("tarmac sl8") && wn.includes("roval")) hero = "Remco Evenepoel (Soudal)";
+            const fn = resF.n.toLowerCase(); const wn = resW.n.toLowerCase();
+            if (fn.includes("colnago") && wn.includes("enve")) hero = "Tadej Pogačar";
+            else if (fn.includes("cervelo") && wn.includes("reserve")) hero = "Jonas Vingegaard";
+            else if (fn.includes("tarmac sl8") && wn.includes("roval")) hero = "Remco Evenepoel";
 
-            // --- 순차 연출 (await를 통해 하나씩 끝날 때까지 대기) ---
-            await new Promise(r => setTimeout(r, 1200)); 
-            await finalizeCard('f', resF, null); // 프레임 완료될 때까지 대기
+            // 순차 연출 시작
+            await new Promise(r => setTimeout(r, 1200));
+            await finalizeCard('card-f', 'f', resF, (hero && (fn.includes("colnago")||fn.includes("cervelo")||fn.includes("tarmac"))) ? hero : null);
 
-            await new Promise(r => setTimeout(r, 600)); 
-            await finalizeCard('w', resW, null); // 휠셋 완료될 때까지 대기
+            await new Promise(r => setTimeout(r, 600));
+            await finalizeCard('card-w', 'w', resW, (hero && (wn.includes("enve")||wn.includes("reserve")||wn.includes("roval"))) ? hero : null);
 
-            await new Promise(r => setTimeout(r, 600)); 
-            await finalizeCard('g', resG, null); // 구동계 완료될 때까지 대기
+            await new Promise(r => setTimeout(r, 600));
+            await finalizeCard('card-g', 'g', resG, null);
 
             clearInterval(rollingInterval);
-           // 롤링 멈추고 나머지 파츠 한꺼번에 정지            
-            document.getElementById('s').innerText = resS;
-            document.getElementById('t').innerText = resT + " (" + data.size[Math.floor(Math.random()*data.size.length)] + ")";
-            document.getElementById('p').innerText = resP;
+            document.getElementById('s').innerText = data.s[Math.floor(Math.random()*data.s.length)];
+            document.getElementById('t').innerText = data.t[Math.floor(Math.random()*data.t.length)] + " (" + data.size[Math.floor(Math.random()*data.size.length)] + ")";
+            document.getElementById('p').innerText = data.p[Math.floor(Math.random()*data.p.length)];
             document.querySelectorAll('.rolling').forEach(v => v.classList.remove('rolling'));
             
-            // 최종 결과 요약창 띄우기
             showResult(resF, resG, resW, hero);
             btn.disabled = false;
         }
-        
+
+        function showResult(f, g, w, hero) {
+            const scoreMap = { "S": 4, "A": 3, "B": 2, "C": 1 };
+            const avg = (scoreMap[f.r] + scoreMap[g.r] + scoreMap[w.r]) / 3;
+            const finalRank = avg >= 3.7 ? "S" : avg >= 3.0 ? "A" : avg >= 2.0 ? "B" : "C";
+            const rVal = document.getElementById('rank-val');
+            if (hero) {
+                rVal.innerText = "HERO CLASS"; rVal.style.color = "var(--s-rank)";
+                document.getElementById('rank-desc').innerText = `🔥 전설의 탄생! ${hero} 세팅!`;
+            } else {
+                rVal.innerText = finalRank + " CLASS"; rVal.style.color = finalRank === 'S' ? "var(--s-rank)" : "#fff";
+                document.getElementById('rank-desc').innerText = finalRank === 'S' ? "🏆 천상계 기함 세팅 완료!" : "🚴 즐거운 라이딩 되세요!";
+            }
+            document.getElementById('total-rank').style.display = 'block';
+            document.querySelectorAll('.card').forEach(c => c.classList.add('active'));
+        }
+
         function toggleRoster() {
             const content = document.getElementById('roster-content');
             content.style.maxHeight = content.style.maxHeight ? null : content.scrollHeight + "px";
         }
-        
+
         function init() {
             const configs = [{k:'f', l:'list-f', c:'count-f'}, {k:'w', l:'list-w', c:'count-w'}, {k:'g', l:'list-g', c:'count-g'}];
             configs.forEach(conf => {
-                const countEl = document.getElementById(conf.c);
-                const listEl = document.getElementById(conf.l);
-                if(countEl) countEl.innerText = data[conf.k].length;
-                if(listEl) {
-                    listEl.innerHTML = data[conf.k].map(i => `
-                        <div class="data-item">
-                            <span class="${i.r==='S'?'rank-S-txt':''}">[${i.b}] ${i.n}</span>
-                            <span style="opacity:0.3;font-size:0.6rem;">${i.r}</span>
-                        </div>`).join('');
-                }
+                document.getElementById(conf.c).innerText = data[conf.k].length;
+                document.getElementById(conf.l).innerHTML = data[conf.k].map(i => `<div class="data-item"><span class="${i.r==='S'?'rank-S-txt':''}">[${i.b}] ${i.n}</span><span>${i.r}</span></div>`).join('');
             });
         }
-        
         window.onload = init;
-
     </script>
 </body>
 </html>
-
-
