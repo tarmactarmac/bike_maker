@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Bike Draft - FIFA Pack Edition</title>
+    <title>Ultimate Bike Draft - Correct Rank Version</title>
     <style>
         :root { --primary: #ff3e3e; --s-rank: #ffcf40; --a-rank: #e2e2e2; --b-rank: #cd7f32; --c-rank: #7a7a7a; }
         body { background: #000; color: white; font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; }
@@ -26,10 +26,7 @@
         }
 
         .label { font-size: 0.6rem; color: #555; font-weight: 800; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
-        
-        /* 제조사(Brand) 텍스트 스타일 추가 */
         .brand-text { font-size: 0.65rem; color: #888; font-weight: 600; margin-bottom: 2px; text-transform: uppercase; }
-        
         .value { font-size: 0.8rem; font-weight: 700; line-height: 1.2; color: #fff; word-break: keep-all; min-height: 3em; display: flex; flex-direction: column; align-items: center; justify-content: center; }
 
         .rank-badge { position: absolute; top: 8px; right: 8px; font-size: 0.55rem; font-weight: 900; padding: 2px 6px; border-radius: 50px; display: none; z-index: 10; }
@@ -45,7 +42,6 @@
         .rank-B { background: var(--b-rank); color: #fff; }
         .rank-C { background: var(--c-rank); color: #fff; }
 
-        /* 하단 로스터 리스트 */
         .data-viewer { margin-top: 50px; width: 100%; max-width: 1100px; padding: 0 10px; box-sizing: border-box; }
         .roster-toggle-btn { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #888; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
         .roster-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #080808; border-radius: 0 0 12px 12px; }
@@ -88,61 +84,104 @@
     </div>
 
     <script>
-        const data = {
-            f: [
-                {b:"Specialized", n:"S-Works Tarmac SL8", r:"S"}, {b:"Specialized", n:"S-Works Aethos", r:"S"}, {b:"Specialized", n:"S-Works Roubaix SL8", r:"S"}, {b:"Specialized", n:"S-Works Shiv TT", r:"S"}, {b:"Specialized", n:"Tarmac SL8 Pro", r:"A"}, {b:"Specialized", n:"Aethos Pro", r:"A"}, {b:"Specialized", n:"Roubaix SL8 Expert", r:"A"}, {b:"Specialized", n:"Allez Sprint", r:"B"}, {b:"Specialized", n:"Allez E5", r:"C"},
-                {b:"Trek", n:"Madone SLR 9 Gen 8", r:"S"}, {b:"Trek", n:"Emonda SLR 9", r:"S"}, {b:"Trek", n:"Domane SLR 9", r:"S"}, {b:"Trek", n:"Madone SL 7", r:"A"}, {b:"Trek", n:"Emonda SL 7", r:"A"}, {b:"Trek", n:"Domane SL 7", r:"A"}, {b:"Trek", n:"Emonda SL 5", r:"B"}, {b:"Trek", n:"Domane AL 2", r:"C"},
-                {b:"Canyon", n:"Aeroad CFR", r:"S"}, {b:"Canyon", n:"Ultimate CFR", r:"S"}, {b:"Canyon", n:"Endurace CFR", r:"S"}, {b:"Canyon", n:"Speedmax CFR", r:"S"}, {b:"Canyon", n:"Aeroad CF SLX", r:"A"}, {b:"Canyon", n:"Ultimate CF SLX", r:"A"}, {b:"Canyon", n:"Endurace CF SLX", r:"A"}, {b:"Canyon", n:"Aeroad CF SL", r:"B"}, {b:"Canyon", n:"Ultimate CF SL", r:"B"}, {b:"Canyon", n:"Endurace AL", r:"C"},
-                {b:"Cervelo", n:"S5", r:"S"}, {b:"Cervelo", n:"R5", r:"S"}, {b:"Cervelo", n:"P5", r:"S"}, {b:"Cervelo", n:"Soloist", r:"A"},
-                {b:"Pinarello", n:"Dogma F", r:"S"}, {b:"Pinarello", n:"Dogma X", r:"S"}, {b:"Pinarello", n:"F7", r:"A"}, {b:"Pinarello", n:"X7", r:"B"}, {b:"Pinarello", n:"Prince", r:"B"},
-                {b:"Colnago", n:"Y1Rs", r:"S"}, {b:"Colnago", n:"V5Rs", r:"S"}, {b:"Colnago", n:"V4Rs", r:"S"}, {b:"Colnago", n:"C68", r:"S"},
-                {b:"Cannondale", n:"SuperSix EVO Lab71", r:"S"}, {b:"Cannondale", n:"SystemSix Hi-MOD", r:"S"}, {b:"Cannondale", n:"SuperSix EVO Hi-MOD", r:"A"}, {b:"Cannondale", n:"Synapse Carbon", r:"B"}, {b:"Cannondale", n:"CAAD13", r:"B"},
-                {b:"Giant", n:"Propel Advanced SL 0", r:"S"}, {b:"Giant", n:"TCR Advanced SL 0", r:"S"}, {b:"Giant", n:"Defy Advanced SL", r:"S"}, {b:"Giant", n:"Propel Advanced Pro", r:"A"}, {b:"Giant", n:"TCR Advanced Pro", r:"A"}, {b:"Giant", n:"TCR Advanced", r:"B"}, {b:"Giant", n:"Contend AR", r:"C"},
-                {b:"BMC", n:"Teammachine SLR01", r:"S"}, {b:"BMC", n:"Timemachine Road", r:"S"}, {b:"BMC", n:"Roadmachine 01", r:"A"}, {b:"BMC", n:"Teammachine SLR", r:"B"}, {b:"BMC", n:"Teammachine ALR", r:"C"},
-                {b:"Scott", n:"Foil RC Ultimate", r:"S"}, {b:"Scott", n:"Addict RC Ultimate", r:"S"}, {b:"Scott", n:"Foil RC Pro", r:"A"}, {b:"Scott", n:"Addict 10", r:"B"}, {b:"Scott", n:"Speedster 10", r:"C"},
-                {b:"Factor", n:"ONE", r:"S"}, {b:"Factor", n:"OSTRO VAM", r:"S"}, {b:"Factor", n:"O2 VAM", r:"S"}, {b:"Factor", n:"Hanzo", r:"S"}, {b:"Factor", n:"OSTRO Gravel", r:"A"}, {b:"Factor", n:"O2", r:"B"},
-                {b:"Wilier", n:"Filante SLR", r:"S"}, {b:"Wilier", n:"0 SLR", r:"S"}, {b:"Wilier", n:"Rave SLR", r:"A"}, {b:"Wilier", n:"GTR Team", r:"B"}, {b:"Wilier", n:"Montegrappa", r:"C"},
-                {b:"Bianchi", n:"Oltre RC", r:"S"}, {b:"Bianchi", n:"Specialissima RC", r:"S"}, {b:"Bianchi", n:"Aria", r:"B"}, {b:"Bianchi", n:"Via Nirone 7", r:"C"},
-                {b:"Merida", n:"Reacto Team", r:"S"}, {b:"Merida", n:"Scultura Team", r:"S"}, {b:"Merida", n:"Scultura 5000", r:"B"}, {b:"Merida", n:"Scultura 100", r:"C"},
-                {b:"Look", n:"795 Blade RS", r:"S"}, {b:"Argon18", n:"Nitrogen Disc", r:"S"}, {b:"Ridley", n:"Noah Fast", r:"S"}, {b:"Orbea", n:"Orca OMX", r:"S"}, {b:"Lapierre", n:"Xelius SL", r:"S"}, {b:"Time", n:"Alpe d'Huez 01", r:"S"},
-                {b:"Winspace", n:"T1550 (Aero)", r:"S"}, {b:"Winspace", n:"SLC 2.0", r:"S"}, {b:"Winspace", n:"T1500", r:"A"}, {b:"Winspace", n:"G2", r:"B"},
-                {b:"SEKA", n:"Exceed RDC", r:"S"}, {b:"SEKA", n:"Exceed", r:"A"}, {b:"SEKA", n:"Spear", r:"A"},
-                {b:"Evolve", n:"Cima", r:"S"}
-            ],
-            g: [
-                {b:"Shimano", n:"Dura-Ace R9270 Di2", r:"S"}, {b:"SRAM", n:"RED AXS (2024)", r:"S"}, {b:"Campagnolo", n:"Super Record Wireless", r:"S"},
-                {b:"Shimano", n:"Ultegra R8170 Di2", r:"A"}, {b:"SRAM", n:"Force AXS", r:"A"}, {b:"Shimano", n:"105 R7170 Di2", r:"B"}, {b:"Shimano", n:"105 Mechanical", r:"C"}
-            ],
-            w: [
-                {b:"Scope", n:"Artech 2 (Hill Climb)", r:"S"}, {b:"Scope", n:"Artech 4 (All-road)", r:"S"}, {b:"Scope", n:"Artech 6 (Aero)", r:"S"},
-                {b:"Roval", n:"Rapide CLX III", r:"S"}, {b:"Roval", n:"Alpinist CLX III", r:"S"}, {b:"Roval", n:"Rapide CLX II", r:"A"}, {b:"Roval", n:"Alpinist CLX II", r:"A"}, {b:"Roval", n:"Rapide CL II", r:"B"}, {b:"Roval", n:"Alpinist CL II", r:"B"},
-                {b:"Zipp", n:"454 NSW", r:"S"}, {b:"Zipp", n:"353 NSW", r:"S"}, {b:"Zipp", n:"404 Firecrest", r:"A"}, {b:"Zipp", n:"303 Firecrest", r:"A"}, {b:"Zipp", n:"808 Firecrest", r:"A"}, {b:"Zipp", n:"303 S Tubeless Disc", r:"B"},
-                {b:"Enve", n:"SES 2.3", r:"S"}, {b:"Enve", n:"SES 3.4", r:"S"}, {b:"Enve", n:"SES 4.5", r:"S"}, {b:"Enve", n:"SES 6.7", r:"S"}, {b:"Enve", n:"PRO 4.5", r:"S"}, {b:"Enve", n:"Foundation 45", r:"A"}, {b:"Enve", n:"Foundation 65", r:"A"},
-                {b:"Lightweight", n:"Meilenstein Evo", r:"S"}, {b:"Lightweight", n:"Fernweg Evo", r:"S"}, {b:"Lightweight", n:"Obermayer Evo", r:"S"},
-                {b:"Princeton", n:"Wake 6560 Strada", r:"S"}, {b:"Princeton", n:"Wake 7580", r:"S"}, {b:"Princeton", n:"Peak 4550", r:"S"},
-                {b:"Cadex", n:"Max 40", r:"S"}, {b:"Cadex", n:"50 Ultra", r:"S"}, {b:"Cadex", n:"65 Disc", r:"S"},
-                {b:"Shimano", n:"Dura-Ace C36 R9270", r:"S"}, {b:"Shimano", n:"Dura-Ace C50 R9270", r:"S"}, {b:"Shimano", n:"Dura-Ace C60 R9270", r:"S"}, {b:"Shimano", n:"Ultegra C36 R8170", r:"A"}, {b:"Shimano", n:"Ultegra C50 R8170", r:"A"}, {b:"Shimano", n:"Ultegra C60 R8170", r:"A"}, {b:"Shimano", n:"105 Carbon C46", r:"B"}, {b:"Shimano", n:"105 Carbon C32", r:"B"},
-                {b:"Campagnolo", n:"Bora Ultra WTO 33", r:"S"}, {b:"Campagnolo", n:"Bora Ultra WTO 45", r:"S"}, {b:"Campagnolo", n:"Bora Ultra WTO 60", r:"S"}, {b:"Campagnolo", n:"Bora WTO 45", r:"A"}, {b:"Campagnolo", n:"Bora WTO 60", r:"A"}, {b:"Campagnolo", n:"Scirocco Disc", r:"B"},
-                {b:"Bontrager", n:"Aeolus RSL 37", r:"S"}, {b:"Bontrager", n:"Aeolus RSL 51", r:"S"}, {b:"Bontrager", n:"Aeolus RSL 62", r:"S"}, {b:"Bontrager", n:"Aeolus Pro 51", r:"A"}, {b:"Bontrager", n:"Aeolus Pro 37", r:"A"}, {b:"Bontrager", n:"Aeolus Elite 50", r:"B"}, {b:"Bontrager", n:"Aeolus Elite 35", r:"B"},
-                {b:"Reserve", n:"40/44", r:"S"}, {b:"Reserve", n:"52/63", r:"S"}, {b:"Reserve", n:"34/37", r:"S"},
-                {b:"Corima", n:"MCC DX 47mm", r:"S"}, {b:"Corima", n:"WS Black DX", r:"S"},
-                {b:"Black Inc", n:"Five", r:"S"}, {b:"Black Inc", n:"Sixty", r:"S"}, {b:"Black Inc", n:"Twenty", r:"S"},
-                {b:"HUNT", n:"Limitless 48 Aerodynamicist", r:"S"}, {b:"HUNT", n:"32 Aerodynamicist UD Carbon", r:"S"}, {b:"HUNT", n:"50 Carbon Wide Aero", r:"A"}, {b:"HUNT", n:"4 Season Aero", r:"B"},
-                {b:"Partington", n:"R-Series MKII", r:"S"}, {b:"Syncros", n:"Capital SL 40", r:"S"}, {b:"DT Swiss", n:"ARC 1100 DICUT 50", r:"S"}, {b:"DT Swiss", n:"ARC 1400 DICUT 50", r:"A"}, {b:"DT Swiss", n:"ERC 1400 DICUT", r:"A"}, {b:"DT Swiss", n:"PRC 1400 Spline", r:"A"}, {b:"DT Swiss", n:"P1800 Spline 32", r:"B"}, {b:"DT Swiss", n:"ER1600 Spline", r:"B"},
-                {b:"Giant", n:"SLR 0 50 Disc", r:"A"}, {b:"Giant", n:"SLR 0 36 Disc", r:"A"}, {b:"Giant", n:"SLR 1 50 Disc", r:"B"}, {b:"Giant", n:"SLR 1 42 Disc", r:"B"},
-                {b:"Vision", n:"Metron 45 SL Disc", r:"A"}, {b:"Vision", n:"Metron 60 SL Disc", r:"A"}, {b:"Vision", n:"Team 35 Disc", r:"B"}, {b:"Vision", n:"SC 55 Disc", r:"B"}, {b:"Vision", n:"SC 40 Disc", r:"B"},
-                {b:"Mavic", n:"Cosmic SLR 45 Disc", r:"A"}, {b:"Mavic", n:"Ksyrium SL Disc", r:"A"}, {b:"Mavic", n:"Cosmic SL 45 Disc", r:"B"},
-                {b:"FFWD", n:"RYOT 55", r:"A"}, {b:"FFWD", n:"RYOT 44", r:"A"},
-                {b:"HED", n:"Vanquish RC4 Performance", r:"A"}, {b:"HED", n:"Vanquish RC6 Performance", r:"A"},
-                {b:"Fulcrum", n:"Speed 42 Disc", r:"A"}, {b:"Fulcrum", n:"Speed 57 Disc", r:"A"}, {b:"Fulcrum", n:"Wind 42", r:"B"}, {b:"Fulcrum", n:"Wind 57", r:"B"},
-                {b:"Vincents", n:"Berg", r:"A"}
-            ],
+       const data = {
+    f: [
+        // Specialized
+        {b:"Specialized", n:"S-Works Tarmac SL8", r:"S"}, {b:"Specialized", n:"S-Works Aethos", r:"S"}, {b:"Specialized", n:"S-Works Roubaix SL8", r:"S"}, {b:"Specialized", n:"S-Works Shiv TT", r:"S"}, {b:"Specialized", n:"Tarmac SL8 Pro", r:"A"}, {b:"Specialized", n:"Aethos Pro", r:"A"}, {b:"Specialized", n:"Roubaix SL8 Expert", r:"A"}, {b:"Specialized", n:"Allez Sprint", r:"B"}, {b:"Specialized", n:"Allez E5", r:"C"},
+        // Trek
+        {b:"Trek", n:"Madone SLR 9 Gen 8", r:"S"}, {b:"Trek", n:"Emonda SLR 9", r:"S"}, {b:"Trek", n:"Domane SLR 9", r:"S"}, {b:"Trek", n:"Madone SL 7", r:"A"}, {b:"Trek", n:"Emonda SL 7", r:"A"}, {b:"Trek", n:"Domane SL 7", r:"A"}, {b:"Trek", n:"Emonda SL 5", r:"B"}, {b:"Trek", n:"Domane AL 2", r:"C"},
+        // Canyon
+        {b:"Canyon", n:"Aeroad CFR", r:"S"}, {b:"Canyon", n:"Ultimate CFR", r:"S"}, {b:"Canyon", n:"Endurace CFR", r:"S"}, {b:"Canyon", n:"Speedmax CFR", r:"S"}, {b:"Canyon", n:"Aeroad CF SLX", r:"A"}, {b:"Canyon", n:"Ultimate CF SLX", r:"A"}, {b:"Canyon", n:"Endurace CF SLX", r:"A"}, {b:"Canyon", n:"Aeroad CF SL", r:"B"}, {b:"Canyon", n:"Ultimate CF SL", r:"B"}, {b:"Canyon", n:"Endurace AL", r:"C"},
+        // Cervelo
+        {b:"Cervelo", n:"S5", r:"S"}, {b:"Cervelo", n:"R5", r:"S"}, {b:"Cervelo", n:"P5", r:"S"}, {b:"Cervelo", n:"Soloist", r:"A"},
+        // Pinarello
+        {b:"Pinarello", n:"Dogma F", r:"S"}, {b:"Pinarello", n:"Dogma X", r:"S"}, {b:"Pinarello", n:"F7", r:"A"}, {b:"Pinarello", n:"X7", r:"B"}, {b:"Pinarello", n:"Prince", r:"B"},
+        // Colnago
+        {b:"Colnago", n:"Y1Rs", r:"S"}, {b:"Colnago", n:"V5Rs", r:"S"}, {b:"Colnago", n:"V4Rs", r:"S"}, {b:"Colnago", n:"C68", r:"S"},
+        // Cannondale
+        {b:"Cannondale", n:"SuperSix EVO Lab71", r:"S"}, {b:"Cannondale", n:"SystemSix Hi-MOD", r:"S"}, {b:"Cannondale", n:"SuperSix EVO Hi-MOD", r:"A"}, {b:"Cannondale", n:"Synapse Carbon", r:"B"}, {b:"Cannondale", n:"CAAD13", r:"B"},
+        // Giant
+        {b:"Giant", n:"Propel Advanced SL 0", r:"S"}, {b:"Giant", n:"TCR Advanced SL 0", r:"S"}, {b:"Giant", n:"Defy Advanced SL", r:"S"}, {b:"Giant", n:"Propel Advanced Pro", r:"A"}, {b:"Giant", n:"TCR Advanced Pro", r:"A"}, {b:"Giant", n:"TCR Advanced", r:"B"}, {b:"Giant", n:"Contend AR", r:"C"},
+        // BMC
+        {b:"BMC", n:"Teammachine SLR01", r:"S"}, {b:"BMC", n:"Timemachine Road", r:"S"}, {b:"BMC", n:"Roadmachine 01", r:"A"}, {b:"BMC", n:"Teammachine SLR", r:"B"}, {b:"BMC", n:"Teammachine ALR", r:"C"},
+        // Scott
+        {b:"Scott", n:"Foil RC Ultimate", r:"S"}, {b:"Scott", n:"Addict RC Ultimate", r:"S"}, {b:"Scott", n:"Foil RC Pro", r:"A"}, {b:"Scott", n:"Addict 10", r:"B"}, {b:"Scott", n:"Speedster 10", r:"C"},
+        // Factor
+        {b:"Factor", n:"ONE", r:"S"}, {b:"Factor", n:"OSTRO VAM", r:"S"}, {b:"Factor", n:"O2 VAM", r:"S"}, {b:"Factor", n:"Hanzo", r:"S"}, {b:"Factor", n:"OSTRO Gravel", r:"A"}, {b:"Factor", n:"O2", r:"B"},
+        // Wilier
+        {b:"Wilier", n:"Filante SLR", r:"S"}, {b:"Wilier", n:"0 SLR", r:"S"}, {b:"Wilier", n:"Rave SLR", r:"A"}, {b:"Wilier", n:"GTR Team", r:"B"}, {b:"Wilier", n:"Montegrappa", r:"C"},
+        // Bianchi
+        {b:"Bianchi", n:"Oltre RC", r:"S"}, {b:"Bianchi", n:"Specialissima RC", r:"S"}, {b:"Bianchi", n:"Aria", r:"B"}, {b:"Bianchi", n:"Via Nirone 7", r:"C"},
+        // Merida
+        {b:"Merida", n:"Reacto Team", r:"S"}, {b:"Merida", n:"Scultura Team", r:"S"}, {b:"Merida", n:"Scultura 5000", r:"B"}, {b:"Merida", n:"Scultura 100", r:"C"},
+        // Look, Argon18, Ridley, Orbea, Lapierre, Time
+        {b:"Look", n:"795 Blade RS", r:"S"}, {b:"Argon18", n:"Nitrogen Disc", r:"S"}, {b:"Ridley", n:"Noah Fast", r:"S"}, {b:"Orbea", n:"Orca OMX", r:"S"}, {b:"Lapierre", n:"Xelius SL", r:"S"}, {b:"Time", n:"Alpe d'Huez 01", r:"S"},
+        // Other Brands
+        {b:"Winspace", n:"T1550 (Aero)", r:"S"}, {b:"Winspace", n:"SLC 2.0", r:"S"}, {b:"Winspace", n:"T1500", r:"A"}, {b:"Winspace", n:"G2", r:"B"},
+        {b:"SEKA", n:"Exceed RDC", r:"S"}, {b:"SEKA", n:"Exceed", r:"A"}, {b:"SEKA", n:"Spear", r:"A"},
+        {b:"Evolve", n:"Cima", r:"S"}
+    ],
+
+    g: [
+        {b:"Shimano", n:"Dura-Ace R9270 Di2", r:"S"}, {b:"SRAM", n:"RED AXS (2024)", r:"S"}, {b:"Campagnolo", n:"Super Record Wireless", r:"S"},
+        {b:"Shimano", n:"Ultegra R8170 Di2", r:"A"}, {b:"SRAM", n:"Force AXS", r:"A"}, {b:"Shimano", n:"105 R7170 Di2", r:"B"}, {b:"Shimano", n:"105 Mechanical", r:"C"}
+    ],
+
+    w: [
+        // --- S RANK ---
+        {b:"Scope", n:"Artech 2 (Hill Climb)", r:"S"}, {b:"Scope", n:"Artech 4 (All-road)", r:"S"}, {b:"Scope", n:"Artech 6 (Aero)", r:"S"},
+        {b:"Roval", n:"Rapide CLX III", r:"S"}, {b:"Roval", n:"Alpinist CLX III", r:"S"},
+        {b:"Zipp", n:"454 NSW", r:"S"}, {b:"Zipp", n:"353 NSW", r:"S"},
+        {b:"Enve", n:"SES 2.3", r:"S"}, {b:"Enve", n:"SES 3.4", r:"S"}, {b:"Enve", n:"SES 4.5", r:"S"}, {b:"Enve", n:"SES 6.7", r:"S"}, {b:"Enve", n:"PRO 4.5", r:"S"},
+        {b:"Lightweight", n:"Meilenstein Evo", r:"S"}, {b:"Lightweight", n:"Fernweg Evo", r:"S"}, {b:"Lightweight", n:"Obermayer Evo", r:"S"},
+        {b:"Princeton", n:"Wake 6560 Strada", r:"S"}, {b:"Princeton", n:"Wake 7580", r:"S"}, {b:"Princeton", n:"Peak 4550", r:"S"},
+        {b:"Cadex", n:"Max 40", r:"S"}, {b:"Cadex", n:"50 Ultra", r:"S"}, {b:"Cadex", n:"65 Disc", r:"S"},
+        {b:"Shimano", n:"Dura-Ace C36 R9270", r:"S"}, {b:"Shimano", n:"Dura-Ace C50 R9270", r:"S"}, {b:"Shimano", n:"Dura-Ace C60 R9270", r:"S"},
+        {b:"Campagnolo", n:"Bora Ultra WTO 33", r:"S"}, {b:"Campagnolo", n:"Bora Ultra WTO 45", r:"S"}, {b:"Campagnolo", n:"Bora Ultra WTO 60", r:"S"},
+        {b:"Bontrager", n:"Aeolus RSL 37", r:"S"}, {b:"Bontrager", n:"Aeolus RSL 51", r:"S"}, {b:"Bontrager", n:"Aeolus RSL 62", r:"S"},
+        {b:"Reserve", n:"40/44", r:"S"}, {b:"Reserve", n:"52/63", r:"S"}, {b:"Reserve", n:"34/37", r:"S"},
+        {b:"Corima", n:"MCC DX 47mm", r:"S"}, {b:"Corima", n:"WS Black DX", r:"S"},
+        {b:"Black Inc", n:"Five", r:"S"}, {b:"Black Inc", n:"Sixty", r:"S"}, {b:"Black Inc", n:"Twenty", r:"S"},
+        {b:"HUNT", n:"Limitless 48 Aerodynamicist", r:"S"}, {b:"HUNT", n:"32 Aerodynamicist UD Carbon", r:"S"},
+        {b:"Partington", n:"R-Series MKII", r:"S"}, {b:"Syncros", n:"Capital SL 40", r:"S"}, {b:"DT Swiss", n:"ARC 1100 DICUT 50", r:"S"},
+
+        // --- A RANK ---
+        {b:"Roval", n:"Rapide CLX II", r:"A"}, {b:"Roval", n:"Alpinist CLX II", r:"A"},
+        {b:"Zipp", n:"404 Firecrest", r:"A"}, {b:"Zipp", n:"303 Firecrest", r:"A"}, {b:"Zipp", n:"808 Firecrest", r:"A"},
+        {b:"Enve", n:"Foundation 45", r:"A"}, {b:"Enve", n:"Foundation 65", r:"A"},
+        {b:"DT Swiss", n:"ARC 1400 DICUT 50", r:"A"}, {b:"DT Swiss", n:"ERC 1400 DICUT", r:"A"}, {b:"DT Swiss", n:"PRC 1400 Spline", r:"A"},
+        {b:"Shimano", n:"Ultegra C36 R8170", r:"A"}, {b:"Shimano", n:"Ultegra C50 R8170", r:"A"}, {b:"Shimano", n:"Ultegra C60 R8170", r:"A"},
+        {b:"Campagnolo", n:"Bora WTO 45", r:"A"}, {b:"Campagnolo", n:"Bora WTO 60", r:"A"},
+        {b:"Bontrager", n:"Aeolus Pro 51", r:"A"}, {b:"Bontrager", n:"Aeolus Pro 37", r:"A"},
+        {b:"Giant", n:"SLR 0 50 Disc", r:"A"}, {b:"Giant", n:"SLR 0 36 Disc", r:"A"},
+        {b:"Vision", n:"Metron 45 SL Disc", r:"A"}, {b:"Vision", n:"Metron 60 SL Disc", r:"A"},
+        {b:"Mavic", n:"Cosmic SLR 45 Disc", r:"A"}, {b:"Mavic", n:"Ksyrium SL Disc", r:"A"},
+        {b:"FFWD", n:"RYOT 55", r:"A"}, {b:"FFWD", n:"RYOT 44", r:"A"},
+        {b:"HED", n:"Vanquish RC4 Performance", r:"A"}, {b:"HED", n:"Vanquish RC6 Performance", r:"A"},
+        {b:"Fulcrum", n:"Speed 42 Disc", r:"A"}, {b:"Fulcrum", n:"Speed 57 Disc", r:"A"},
+        {b:"Vincents", n:"Berg", r:"A"}, {b:"HUNT", n:"50 Carbon Wide Aero", r:"A"},
+
+        // --- B RANK ---
+        {b:"Roval", n:"Rapide CL II", r:"B"}, {b:"Roval", n:"Alpinist CL II", r:"B"}, {b:"Roval", n:"C38 Disc", r:"B"},
+        {b:"Zipp", n:"303 S Tubeless Disc", r:"B"},
+        {b:"Shimano", n:"105 Carbon C46", r:"B"}, {b:"Shimano", n:"105 Carbon C32", r:"B"},
+        {b:"Bontrager", n:"Aeolus Elite 50", r:"B"}, {b:"Bontrager", n:"Aeolus Elite 35", r:"B"},
+        {b:"Giant", n:"SLR 1 50 Disc", r:"B"}, {b:"Giant", n:"SLR 1 42 Disc", r:"B"},
+        {b:"Fulcrum", n:"Wind 42", r:"B"}, {b:"Fulcrum", n:"Wind 57", r:"B"},
+        {b:"DT Swiss", n:"P1800 Spline 32", r:"B"}, {b:"DT Swiss", n:"ER1600 Spline", r:"B"},
+        {b:"Mavic", n:"Cosmic SL 45 Disc", r:"B"},
+        {b:"Vision", n:"Team 35 Disc", r:"B"}, {b:"Vision", n:"SC 55 Disc", r:"B"}, {b:"Vision", n:"SC 40 Disc", r:"B"},
+        {b:"Campagnolo", n:"Scirocco Disc", r:"B"},
+        {b:"HUNT", n:"4 Season Aero", r:"B"}
+    ],
+
             s: ["S-Works Power Mirror", "S-Works Romin Mirror", "Fizik Vento Argo R1", "Fizik Antares Versus", "Selle Italia SLR Boost", "Selle Italia Flite Boost", "Prologo Scratch M5", "Prologo Dimension", "Bontrager Aeolus Pro", "Cadex Boost Carbon", "Giant Fleet SL", "PRO Stealth Performance", "Selle San Marco Shortfit", "Selle SMP Dynamic", "Fabric Scoop Pro", "Syncros Belcarra", "Ergon SR Pro", "Brooks Cambium C13"],
             t: ["Continental GP5000 S TR", "Continental GP5000 AS TR", "Vittoria Corsa PRO", "Vittoria Corsa Next", "Pirelli P ZERO Race TLR", "Pirelli P ZERO Race RS", "Schwalbe Pro One TLE", "Specialized Turbo Cotton", "Specialized S-Works Turbo", "Bontrager R3 Hard-Case", "Goodyear Eagle F1", "Michelin Power Cup", "Panaracer Agilest TLE", "Veloflex Corsa RACE", "Challenge Strada Bianca", "Pirelli P7 Sport"],
             p: ["Shimano Dura-Ace PD-R9100", "Shimano Ultegra PD-R8000", "Shimano 105 PD-R7000", "Look Keo Blade Carbon Ti", "Look Keo Classic 3", "Wahoo Speedplay Zero Nano", "Wahoo Speedplay Zero", "Time Xpro 15 Carbon", "Time Xpresso 7", "Garmin Rally RS200 (Power)", "Favero Assioma Duo (Power)", "Shimano PD-RS500"],
             size: ["25C", "28C", "30C"]
         };
 
+        // 뱃지 설정 함수 (실제 데이터 등급을 직접 받아 처리)
         function setBadge(id, rank, hero) {
             const badge = document.getElementById('r-' + id);
             if(!badge) return;
@@ -151,23 +190,25 @@
             badge.style.display = 'block';
         }
 
+        // 최종 연출 함수 (item 매개변수는 실제 resF, resW 등의 확정 데이터를 의미함)
         async function finalizeCard(cardId, valId, item, hero) {
             const card = document.getElementById(cardId);
             const el = document.getElementById(valId);
             el.classList.remove('rolling');
             
+            // 등급에 따른 연출 (item.r을 직접 참조하여 실제 등급과 100% 일치시킴)
             if (item.r === 'S') {
                 card.classList.add('s-win');
-                // S급 연출: RANK -> BRAND -> MODEL
                 el.innerHTML = `<span class="text-S">RANK: S</span>`;
                 await new Promise(r => setTimeout(r, 700));
                 el.innerHTML = `<span class="text-S">${item.b}</span>`;
                 await new Promise(r => setTimeout(r, 700));
                 el.innerHTML = `<span class="text-S">${item.n}</span>`;
             } else {
-                // 일반 등급: 제조사와 모델명을 깔끔하게 표기
                 el.innerHTML = `<span class="brand-text">${item.b}</span><span style="color:#eee">[${item.r}] ${item.n}</span>`;
             }
+            
+            // 뱃지도 실제 데이터의 등급(item.r)으로 표시
             setBadge(valId, item.r, hero);
         }
 
@@ -175,7 +216,7 @@
             const btn = document.querySelector('.btn-draw');
             btn.disabled = true;
             
-            // 초기화
+            // UI 초기화
             document.querySelectorAll('.rank-badge').forEach(e => e.style.display = 'none');
             document.querySelectorAll('.card').forEach(e => {e.classList.remove('s-win', 'active')});
             document.getElementById('total-rank').style.display = 'none';
@@ -183,21 +224,21 @@
             const values = document.querySelectorAll('.value');
             values.forEach(v => v.classList.add('rolling'));
 
+            // 롤링 시각 효과 (실제 데이터와 상관없이 랜덤 텍스트만 보여줌)
             const rollingInterval = setInterval(() => {
                 const rf = data.f[Math.floor(Math.random()*data.f.length)];
                 const rw = data.w[Math.floor(Math.random()*data.w.length)];
                 const rg = data.g[Math.floor(Math.random()*data.g.length)];
                 
-                document.getElementById('f').innerHTML = `<span class="brand-text">${rf.b}</span><span>${rf.n}</span>`;
-                document.getElementById('w').innerHTML = `<span class="brand-text">${rw.b}</span><span>${rw.n}</span>`;
-                document.getElementById('g').innerHTML = `<span class="brand-text">${rg.b}</span><span>${rg.n}</span>`;
-                
+                document.getElementById('f').innerText = rf.n;
+                document.getElementById('w').innerText = rw.n;
+                document.getElementById('g').innerText = rg.n;
                 document.getElementById('s').innerText = data.s[Math.floor(Math.random()*data.s.length)];
                 document.getElementById('t').innerText = data.t[Math.floor(Math.random()*data.t.length)];
                 document.getElementById('p').innerText = data.p[Math.floor(Math.random()*data.p.length)];
             }, 60);
 
-            // 결과값 미리 고정
+            // 중요: 버튼 클릭 시점에 "진짜 최종 결과"를 미리 선점 (변하지 않음)
             const resF = data.f[Math.floor(Math.random()*data.f.length)];
             const resW = data.w[Math.floor(Math.random()*data.w.length)];
             const resG = data.g[Math.floor(Math.random()*data.g.length)];
@@ -212,24 +253,28 @@
             else if (fn.includes("cervelo") && wn.includes("reserve")) hero = "Jonas Vingegaard";
             else if (fn.includes("tarmac sl8") && wn.includes("roval")) hero = "Remco Evenepoel";
 
-            // 순차적 정지 연출 (프레임 -> 휠셋 -> 그룹셋)
-            await new Promise(r => setTimeout(r, 1200));
+            // 순차적 정지 및 확정 연출 시작
+            await new Promise(r => setTimeout(r, 1200)); 
+            
+            // 프레임 연출 (여기서 화면 텍스트를 resF로 확실히 덮어씀)
             await finalizeCard('card-f', 'f', resF, (hero && (fn.includes("colnago")||fn.includes("cervelo")||fn.includes("tarmac"))) ? hero : null);
 
             await new Promise(r => setTimeout(r, 600));
+            // 휠셋 연출 (여기서 화면 텍스트를 resW로 확실히 덮어씀)
             await finalizeCard('card-w', 'w', resW, (hero && (wn.includes("enve")||wn.includes("reserve")||wn.includes("roval"))) ? hero : null);
 
             await new Promise(r => setTimeout(r, 600));
+            // 구동계 연출 (여기서 화면 텍스트를 resG로 확실히 덮어씀)
             await finalizeCard('card-g', 'g', resG, null);
 
-            // 기타 파츠 즉시 정지
+            // 기타 파츠 정지
             clearInterval(rollingInterval);
             document.getElementById('s').innerText = resS;
             document.getElementById('t').innerText = resT;
             document.getElementById('p').innerText = resP;
             document.querySelectorAll('.rolling').forEach(v => v.classList.remove('rolling'));
             
-            // 전체 결과 요약 표시
+            // 전체 등급 계산
             const scoreMap = { "S": 4, "A": 3, "B": 2, "C": 1 };
             const avg = (scoreMap[resF.r] + scoreMap[resG.r] + scoreMap[resW.r]) / 3;
             const finalRank = avg >= 3.7 ? "S" : avg >= 3.0 ? "A" : avg >= 2.0 ? "B" : "C";
