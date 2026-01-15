@@ -3,13 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Bike Draft - Legendary Edition</title>
+    <title>Ultimate Bike Draft - Hero Reveal Edition</title>
     <style>
         :root { --primary: #ff3e3e; --s-rank: #ffcf40; --a-rank: #e2e2e2; --b-rank: #cd7f32; --c-rank: #7a7a7a; }
         body { background: #000; color: white; font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; }
         
         .header h1 { font-size: 1.6rem; color: var(--primary); margin: 20px 0; text-transform: uppercase; font-weight: 900; letter-spacing: -1px; text-shadow: 0 0 10px rgba(255, 62, 62, 0.5); }
 
+        /* 히어로 사진 팝업 스타일 */
+        #hero-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 1000; animation: fadeIn 0.5s ease-out;
+        }
+        .hero-img-card {
+            width: 300px; height: 450px;
+            background: linear-gradient(135deg, #ffcf40 0%, #ffae00 100%);
+            border-radius: 20px; border: 5px solid #fff;
+            box-shadow: 0 0 50px rgba(255, 207, 64, 0.8);
+            overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center;
+            position: relative; animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .hero-img-card img { width: 100%; height: 100%; object-fit: cover; }
+        .hero-img-name { 
+            position: absolute; bottom: 20px; width: 100%; text-align: center;
+            font-size: 2rem; font-weight: 900; color: #000; text-transform: uppercase;
+            background: rgba(255,255,255,0.8); padding: 10px 0;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(100px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        /* 기존 스타일 유지 */
         .total-rank-box { margin-bottom: 20px; padding: 15px 30px; border-radius: 20px; background: #1a1a1a; border: 2px solid #333; text-align: center; display: none; width: 100%; max-width: 500px; box-sizing: border-box; }
         .total-rank-value { font-size: 2.2rem; font-weight: 900; margin-bottom: 5px; line-height: 1; }
         .total-rank-desc { font-size: 0.9rem; color: var(--primary); font-weight: 600; }
@@ -40,29 +66,35 @@
 
         .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 10px var(--s-rank); }
         .rank-A { background: var(--a-rank); color: #000; }
+        .rank-B { background: var(--b-rank); color: #fff; }
+        .rank-C { background: var(--c-rank); color: #fff; }
 
-        /* 데이터 뷰어 섹션 */
         .data-viewer { margin-top: 50px; width: 100%; max-width: 1100px; padding: 0 10px; box-sizing: border-box; }
-        .roster-toggle-btn { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #888; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 800; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .roster-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #080808; border-radius: 12px; border: 1px solid #222; }
-        
+        .roster-toggle-btn { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #888; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
+        .roster-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #080808; border-radius: 0 0 12px 12px; }
         .data-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px; }
         .data-column h3 { font-size: 0.8rem; color: var(--primary); border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 0; }
-        .data-list { font-size: 0.7rem; color: #aaa; max-height: 400px; overflow-y: auto; }
+        .data-list { font-size: 0.7rem; color: #aaa; max-height: 300px; overflow-y: auto; border-top: 1px solid #222; }
         .data-item { display: flex; justify-content: space-between; border-bottom: 1px solid #1a1a1a; padding: 6px 0; }
         .rank-S-txt { color: var(--s-rank); font-weight: bold; }
-
-        /* 레전드 콤보 전용 스타일 */
+        
         .hero-item { border-bottom: 1px solid #222; padding: 10px 0; }
         .hero-name { color: var(--s-rank); font-weight: 900; font-size: 0.75rem; display: block; margin-bottom: 3px; }
         .hero-cond { font-size: 0.65rem; color: #777; line-height: 1.4; }
 
-        @media (max-width: 992px) { .data-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } .data-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
-    <div class="header"><h1>너만의 자전거로 너만의 라이딩을 해</h1></div>
+    <div id="hero-overlay" onclick="this.style.display='none'">
+        <div class="hero-img-card">
+            <img id="hero-img" src="" alt="Hero">
+            <div id="hero-img-name-label" class="hero-img-name"></div>
+        </div>
+        <p style="margin-top:20px; color:#aaa;">화면을 클릭하여 닫기</p>
+    </div>
+
+    <div class="header"><h1>ROAD BIKE PACK OPENING</h1></div>
     
     <div id="total-rank" class="total-rank-box">
         <div class="total-rank-value" id="rank-val">-</div>
@@ -73,9 +105,9 @@
         <div class="card" id="card-f"><div class="rank-badge" id="r-f"></div><div class="label">Frame</div><div class="value" id="f">---</div></div>
         <div class="card" id="card-w"><div class="rank-badge" id="r-w"></div><div class="label">Wheelset</div><div class="value" id="w">---</div></div>
         <div class="card" id="card-g"><div class="rank-badge" id="r-g"></div><div class="label">Groupset</div><div class="value" id="g">---</div></div>
-        <div class="card" id="card-s"><div class="label">Saddle</div><div class="value" id="s">---</div></div>
-        <div class="card" id="card-t"><div class="label">Tire</div><div class="value" id="t">---</div></div>
-        <div class="card" id="card-p"><div class="label">Pedal</div><div class="value" id="p">---</div></div>
+        <div class="card" id="card-s"><div class="rank-badge" id="r-s"></div><div class="label">Saddle</div><div class="value" id="s">---</div></div>
+        <div class="card" id="card-t"><div class="rank-badge" id="r-t"></div><div class="label">Tire</div><div class="value" id="t">---</div></div>
+        <div class="card" id="card-p"><div class="rank-badge" id="r-p"></div><div class="label">Pedal</div><div class="value" id="p">---</div></div>
     </div>
 
     <button class="btn-draw" onclick="run()">가즈아~</button>
@@ -85,14 +117,12 @@
         <div id="roster-content" class="roster-content">
             <div class="data-grid">
                 <div class="data-column">
-                    <h3>🏆 레전더리 조합 🏆</h3>
+                    <h3>🏆 LEGENDARY COMBOS</h3>
                     <div id="hero-list" class="data-list">
                         <div class="hero-item"><span class="hero-name">Tadej Pogačar</span><span class="hero-cond">[프레임] Y1Rs / V5Rs<br>[휠셋] Enve SES / Enve PRO 4.5</span></div>
                         <div class="hero-item"><span class="hero-name">Jonas Vingegaard</span><span class="hero-cond">[프레임] S5 / R5<br>[휠셋] Reserve 40/44, 52/63, 34/37</span></div>
-                        <div class="hero-item"><span class="hero-name">Remco Evenepoel</span><span class="hero-cond">[프레임] S-Works Tarmac SL8 / S-Works Shiv TT<br>[휠셋] Roval Rapide CLX</span></div>
+                        <div class="hero-item"><span class="hero-name">Remco Evenepoel</span><span class="hero-cond">[프레임] Tarmac SL8<br>[휠셋] Roval Rapide CLX</span></div>
                         <div class="hero-item"><span class="hero-name">M. van der Poel</span><span class="hero-cond">[프레임] Aeroad CFR<br>[휠셋] Dura-Ace C50 / C60</span></div>
-                        <div class="hero-item"><span class="hero-name">Mark Cavendish</span><span class="hero-cond">[프레임] Filante SLR<br>[휠셋] Vision Metron / HED Vanquish</span></div>
-                        <div class="hero-item"><span class="hero-name">Tom Pidcock</span><span class="hero-cond">[프레임] Dogma F<br>[휠셋] Princeton Wake / Peak / Dura-Ace</span></div>
                     </div>
                 </div>
                 <div class="data-column"><h3>프레임 (<span id="count-f">0</span>)</h3><div id="list-f" class="data-list"></div></div>
@@ -103,7 +133,14 @@
     </div>
 
     <script>
-        
+        // 선수 이미지 매핑 데이터
+        const heroImages = {
+            "Tadej Pogačar": "https://mblogthumb-phinf.pstatic.net/MjAyNDEyMTFfMjQ0/MDAxNzMzOTIyNjM2Mzkw.uEvDrm7BiTEs5EHPxMwWbSzlhFlr6tLmPjLgx6vaSwwg.-rGubBq_OhORfJuOGTFiiRZ2_pML4o2HF9WwGaljrHUg.JPEG/dLDPNtCxyetKqrLayo6rXQ-1200-80.jpg.jpg?type=w800", 
+            "Jonas Vingegaard": "https://mblogthumb-phinf.pstatic.net/MjAyMjA3MjhfMjc3/MDAxNjU4OTY4Mjg5MDEx.uOiHeWt73XfGQEHiwxJI-_CFNjRpW0cY8YyG0hslB5Eg.LPBVe8fKckQVoxkImuMccpp77AbYhjxdxFNRjFyAtlwg.JPEG.piggybankm/Z9D_8723-1-min-1340x916.jpg?type=w420",
+            "Remco Evenepoel": "https://www.bikem.co.kr/fileuploader/php/files/202408/155785.jpg",
+            "M. van der Poel": "https://img1.daumcdn.net/thumb/R800x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdna%2FVXUFZ%2FbtsGev6MJ1x%2FAAAAAAAAAAAAAAAAAAAAAG3ZjxRqZdyzg7pW7ygfqd8DdAnnr2SXnTlzM57mk9Hk%2Fimg.webp%3Fcredential%3DyqXZFxpELC7KVnFOS48ylbz2pIh7yKj8%26expires%3D1769871599%26allow_ip%3D%26allow_referer%3D%26signature%3DApVgAzjFGC8FcXkh8VsQzbXLPMA%253D"            
+        };
+
         const data = {
     f: [
         // Specialized
@@ -196,7 +233,6 @@
             p: ["Shimano Dura-Ace PD-R9100", "Shimano Ultegra PD-R8000", "Shimano 105 PD-R7000", "Look Keo Blade Carbon Ti", "Look Keo Classic 3", "Wahoo Speedplay Zero Nano", "Wahoo Speedplay Zero", "Time Xpro 15 Carbon", "Time Xpresso 7", "Garmin Rally RS200 (Power)", "Favero Assioma Duo (Power)", "Shimano PD-RS500"],
             size: ["25C", "28C", "30C"]
         };
-
         function setBadge(id, rank, hero) {
             const badge = document.getElementById('r-' + id);
             if(!badge) return;
@@ -235,6 +271,22 @@
             setBadge(valId, item.r, hero);
         }
 
+        // 히어로 사진 등장 연출 함수
+        function showHeroReveal(heroName) {
+            const overlay = document.getElementById('hero-overlay');
+            const img = document.getElementById('hero-img');
+            const nameLabel = document.getElementById('hero-img-name-label');
+
+            if (heroImages[heroName]) {
+                img.src = heroImages[heroName];
+                nameLabel.innerText = heroName;
+                overlay.style.display = 'flex';
+                
+                // 3초 후 자동으로 닫기 (선택사항)
+                // setTimeout(() => { overlay.style.display = 'none'; }, 3500);
+            }
+        }
+
         async function run() {
             const btn = document.querySelector('.btn-draw');
             btn.disabled = true;
@@ -260,18 +312,16 @@
 
             let hero = null;
             const fn = resF.n; const wn = resW.n;
-            if ((fn.includes("Y1Rs") || fn.includes("V5Rs")) && (wn.includes("SES") || wn.includes("PRO 4.5"))) hero = "Tadej Pogačar";
+            if ((fn.includes("V4Rs") || fn.includes("V5Rs") || fn.includes("C68") || fn.includes("Y1Rs")) && (wn.includes("SES") || wn.includes("PRO 4.5"))) hero = "Tadej Pogačar";
             else if ((fn.includes("S5") || fn.includes("R5")) && (wn.includes("40/44") || wn.includes("52/63") || wn.includes("34/37"))) hero = "Jonas Vingegaard";
-            else if ((fn.includes("S-Works Tarmac SL8")|| fn.includes("S-Works Shiv TT")) && wn.includes("Rapide CLX")) hero = "Remco Evenepoel";
+            else if (fn.includes("Tarmac SL8") && wn.includes("Rapide CLX")) hero = "Remco Evenepoel";
             else if (fn.includes("Aeroad CFR") && (wn.includes("Dura-Ace") || wn.includes("C50") || wn.includes("C60"))) hero = "M. van der Poel";
-            else if (fn.includes("Filante SLR") && (wn.includes("Metron") || wn.includes("Vanquish"))) hero = "Mark Cavendish";
-            else if (fn.includes("Dogma F") && (wn.includes("Wake") || wn.includes("Peak") || wn.includes("Dura-Ace"))) hero = "Tom Pidcock";
 
             await new Promise(r => setTimeout(r, 1500));
             Object.values(timers).forEach(clearInterval);
 
             await Promise.all([
-                finalizeCard('card-f', 'f', resF, (hero && (fn.includes("V4Rs")||fn.includes("V5Rs")||fn.includes("C68")||fn.includes("S5")||fn.includes("R5")||fn.includes("Tarmac")||fn.includes("Aeroad")||fn.includes("Filante")||fn.includes("Dogma"))) ? hero : null),
+                finalizeCard('card-f', 'f', resF, (hero && (fn.includes("V4Rs")||fn.includes("V5Rs")||fn.includes("C68")||fn.includes("Y1Rs")||fn.includes("S5")||fn.includes("R5")||fn.includes("Tarmac")||fn.includes("Aeroad")||fn.includes("Filante")||fn.includes("Dogma"))) ? hero : null),
                 finalizeCard('card-w', 'w', resW, (hero && (wn.includes("SES")||wn.includes("PRO 4.5")||wn.includes("40/44")||wn.includes("52/63")||wn.includes("Rapide")||wn.includes("Dura-Ace")||wn.includes("Metron")||wn.includes("Wake"))) ? hero : null),
                 finalizeCard('card-g', 'g', resG, null),
                 (async () => {
@@ -281,6 +331,11 @@
                     document.querySelectorAll('.value.rolling').forEach(v => v.classList.remove('rolling'));
                 })()
             ]);
+
+            // 히어로가 당첨되었을 경우 사진 공개!
+            if (hero) {
+                showHeroReveal(hero);
+            }
 
             const scoreMap = { "S": 4, "A": 3, "B": 2, "C": 1 };
             const avg = (scoreMap[resF.r] + scoreMap[resG.r] + scoreMap[resW.r]) / 3;
@@ -314,7 +369,3 @@
     </script>
 </body>
 </html>
-
-
-
-
