@@ -6,48 +6,55 @@
     <title>Ultimate Road Bike Draft</title>
     <style>
         :root { --primary: #ff3e3e; --s-rank: #ffcf40; --a-rank: #e2e2e2; --b-rank: #cd7f32; --c-rank: #7a7a7a; }
-        body { background: #0a0a0a; color: white; font-family: 'Pretendard', -apple-system, sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 40px 20px; }
+        body { background: #0a0a0a; color: white; font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; overflow-x: hidden; }
         
-        .header { text-align: center; margin-bottom: 30px; }
-        h1 { font-size: 2.5rem; color: var(--primary); margin: 0; letter-spacing: -1px; text-transform: uppercase; font-weight: 900; }
+        .header { text-align: center; margin-bottom: 15px; }
+        h1 { font-size: 1.8rem; color: var(--primary); margin: 0; letter-spacing: -1px; text-transform: uppercase; font-weight: 900; }
         
-        .total-rank-box { margin-bottom: 40px; padding: 30px 60px; border-radius: 30px; background: #1a1a1a; border: 2px solid #333; text-align: center; display: none; box-shadow: 0 15px 40px rgba(0,0,0,0.5); animation: slideDown 0.5s ease-out; width: 100%; max-width: 600px; }
-        @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        
-        .total-rank-label { font-size: 0.8rem; color: #888; margin-bottom: 10px; letter-spacing: 2px; }
-        .total-rank-value { font-size: 2.8rem; font-weight: 900; margin-bottom: 10px; line-height: 1; }
-        .total-rank-desc { font-size: 1.1rem; color: var(--primary); font-weight: 600; }
+        .total-rank-box { margin-bottom: 20px; padding: 15px 30px; border-radius: 20px; background: #1a1a1a; border: 2px solid #333; text-align: center; display: none; width: 100%; max-width: 500px; box-sizing: border-box; }
+        .total-rank-label { font-size: 0.7rem; color: #888; margin-bottom: 5px; letter-spacing: 1px; }
+        .total-rank-value { font-size: 2rem; font-weight: 900; margin-bottom: 5px; line-height: 1; }
+        .total-rank-desc { font-size: 0.9rem; color: var(--primary); font-weight: 600; word-break: keep-all; }
 
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; max-width: 1100px; }
-        @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .grid { grid-template-columns: repeat(1, 1fr); } }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 1100px; }
         
-        .card { background: #151515; border: 1px solid #222; border-radius: 28px; padding: 35px 20px; text-align: center; position: relative; transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: center; height: 160px; }
+        /* 카드 디자인 슬림화 */
+        .card { background: #151515; border: 1px solid #222; border-radius: 18px; padding: 15px 10px; text-align: center; position: relative; transition: all 0.2s ease; display: flex; flex-direction: column; justify-content: center; height: 110px; box-sizing: border-box; }
         .card.active { border-color: #444; background: #1c1c1c; }
         
-        .label { font-size: 0.75rem; color: #666; font-weight: 800; letter-spacing: 2px; margin-bottom: 15px; text-transform: uppercase; }
-        .rank-badge { position: absolute; top: 18px; right: 20px; font-size: 0.7rem; font-weight: 900; padding: 5px 12px; border-radius: 50px; display: none; z-index: 5; white-space: nowrap; }
+        .label { font-size: 0.65rem; color: #555; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
+        .rank-badge { position: absolute; top: 10px; right: 10px; font-size: 0.6rem; font-weight: 900; padding: 3px 8px; border-radius: 50px; display: none; z-index: 5; white-space: nowrap; }
+        .value { font-size: 0.95rem; font-weight: 700; line-height: 1.3; color: #fff; word-break: keep-all; }
         
-        .value { font-size: 1.25rem; font-weight: 800; line-height: 1.4; color: #fff; transition: 0.1s; word-break: keep-all; }
-        
-        .btn-draw { margin-top: 50px; padding: 22px 120px; font-size: 1.6rem; font-weight: 900; color: white; background: var(--primary); border: none; border-radius: 100px; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 30px rgba(255,62,62,0.4); }
-        .btn-draw:hover { transform: scale(1.05); background: #ff5e5e; }
-        
-        .rolling { opacity: 0.2; filter: blur(4px); transform: translateY(5px); }
+        /* 모바일 최적화 (한 화면에 다 보이기) */
+        @media (max-width: 768px) {
+            .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .card { height: 95px; padding: 12px 8px; }
+            .value { font-size: 0.85rem; }
+            .btn-draw { width: 100%; padding: 18px 0 !important; font-size: 1.3rem !important; margin-top: 25px !important; }
+        }
+        @media (max-width: 400px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+            h1 { font-size: 1.5rem; }
+            .total-rank-value { font-size: 1.6rem; }
+        }
 
-        .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 15px rgba(255,207,64,0.4); }
+        .btn-draw { margin-top: 35px; padding: 20px 100px; font-size: 1.5rem; font-weight: 900; color: white; background: var(--primary); border: none; border-radius: 100px; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(255,62,62,0.3); }
+        .rolling { opacity: 0.2; filter: blur(3px); }
+
+        .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 10px rgba(255,207,64,0.3); }
         .rank-A { background: var(--a-rank); color: #000; }
         .rank-B { background: var(--b-rank); color: #fff; }
         .rank-C { background: var(--c-rank); color: #fff; }
-        .text-S { color: var(--s-rank); text-shadow: 0 0 15px rgba(255,207,64,0.5); }
+        .text-S { color: var(--s-rank); text-shadow: 0 0 10px rgba(255,207,64,0.3); }
         .text-A { color: var(--a-rank); }
     </style>
 </head>
 <body>
-    <div class="header"><h1>ROAD BIKE DRAFT</h1></div>
+    <div class="header"><h1>너만의 자전거로 너만의 라이딩을 해</h1></div>
     
     <div id="total-rank" class="total-rank-box">
-        <div class="total-rank-label" id="top-label">CONGRATULATIONS!</div>
+        <div class="total-rank-label" id="top-label">개추추!</div>
         <div class="total-rank-value" id="rank-val">-</div>
         <div id="rank-desc" class="total-rank-desc">-</div>
     </div>
@@ -66,10 +73,10 @@
     <script>
         const rankNames = { "S": "최상급 기함", "A": "상급 퍼포먼스", "B": "중급 가성비", "C": "입문용" };
         const finalDescriptions = {
-            "S": "🏆 월드투어 프로팀 수준의 천상계 기함입니다!",
-            "A": "🚀 동호인 상위 1%를 위한 강력한 레이싱 머신!",
+            "S": "🏆 월드투어 프로팀 수준의 천상계 기함!",
+            "A": "🚀 동호인 상위 1% 레이싱 머신!",
             "B": "⚖️ 성능과 가격을 모두 잡은 합리적인 조합!",
-            "C": "🚴 자전거의 즐거움을 알아가는 훌륭한 입문기!"
+            "C": "🚴 자전거의 즐거움을 알아가는 입문기!"
         };
 
         const data = {
@@ -82,8 +89,8 @@
                 {n:"Giant Contend AR", r:"C"}, {n:"Merida Scultura 400", r:"C"}
             ],
             g: [
-                {n:"Shimano Dura-Ace R9270 Di2", r:"S"}, {n:"SRAM RED AXS (2024)", r:"S"}, {n:"Campagnolo Super Record Wireless", r:"S"},
-                {n:"Shimano Ultegra R8170 Di2", r:"A"}, {n:"SRAM Force AXS", r:"A"},
+                {n:"Dura-Ace R9270 Di2", r:"S"}, {n:"SRAM RED AXS (2024)", r:"S"}, {n:"Campagnolo Super Record Wireless", r:"S"},
+                {n:"Ultegra R8170 Di2", r:"A"}, {n:"SRAM Force AXS", r:"A"},
                 {n:"Shimano 105 R7170 Di2", r:"B"}, {n:"Shimano 105 Mechanical", r:"C"}
             ],
             w: [
@@ -135,7 +142,6 @@
             let score = 0;
             const scoreMap = { "S": 4, "A": 3, "B": 2, "C": 1 };
 
-            // 1. 히든 조합 체크
             let hero = null;
             const fn = f.n.toLowerCase();
             const wn = w.n.toLowerCase();
@@ -147,7 +153,6 @@
             else if (fn.includes("dogma") && fn.includes("shimano")) hero = "Tom Pidcock (INEOS)";
             else if (fn.includes("aeroad") && wn.includes("shimano")) hero = "Mathieu van der Poel (Alpecin)";
 
-            // 2. 뱃지 표시
             for(let key in parts) {
                 const rankCode = parts[key].r || "C";
                 const badge = document.getElementById('r-' + key);
@@ -156,7 +161,7 @@
                     badge.innerText = "⭐ " + hero.split(' ')[0];
                     badge.className = 'rank-badge rank-S';
                 } else {
-                    badge.innerText = rankCode + " | " + rankNames[rankCode];
+                    badge.innerText = rankCode;
                     badge.className = 'rank-badge rank-' + rankCode;
                 }
                 badge.style.display = 'block';
@@ -174,10 +179,10 @@
             const rLabel = document.getElementById('top-label');
 
             if (hero) {
-                rLabel.innerText = "LEGENDARY BUILD DETECTED!";
+                rLabel.innerText = "LEGENDARY BUILD!";
                 rVal.innerText = "HERO CLASS";
                 rVal.className = "total-rank-value text-S";
-                rDesc.innerText = `🔥 전설의 탄생! 당신은 ${hero} 선수의 세팅을 완성했습니다!`;
+                rDesc.innerText = `🔥 전설의 탄생! ${hero} 세팅!`;
             } else {
                 rLabel.innerText = "CONGRATULATIONS!";
                 rVal.innerText = finalRank + " CLASS";
