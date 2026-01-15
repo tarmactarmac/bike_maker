@@ -44,7 +44,23 @@
         <div class="card"><div class="label">Pedal</div><div class="value" id="p">---</div></div>
     </div>
     <button class="btn-draw" onclick="run()">가즈아~</button>
-
+	<div class="data-viewer">
+    <h2>나오는 리스트</h2>
+	    <div class="data-grid">
+	        <div class="data-column">
+	            <h3>Frame (<span id="count-f">0</span>)</h3>
+	            <div id="list-f" class="data-list"></div>
+	        </div>
+	        <div class="data-column">
+	            <h3>Wheelset (<span id="count-w">0</span>)</h3>
+	            <div id="list-w" class="data-list"></div>
+	        </div>
+	        <div class="data-column">
+	            <h3>Groupset (<span id="count-g">0</span>)</h3>
+	            <div id="list-g" class="data-list"></div>
+	        </div>
+	    </div>
+	</div>
     <script>
         const data = {
             f: [
@@ -215,6 +231,7 @@
     </script>
 </body>
 </html>
+
 
 
 
