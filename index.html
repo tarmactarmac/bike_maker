@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Bike Draft - Simultaneous Reveal</title>
+    <title>Ultimate Bike Draft - Legendary Edition</title>
     <style>
         :root { --primary: #ff3e3e; --s-rank: #ffcf40; --a-rank: #e2e2e2; --b-rank: #cd7f32; --c-rank: #7a7a7a; }
         body { background: #000; color: white; font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; }
@@ -40,17 +40,24 @@
 
         .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 10px var(--s-rank); }
         .rank-A { background: var(--a-rank); color: #000; }
-        .rank-B { background: var(--b-rank); color: #fff; }
-        .rank-C { background: var(--c-rank); color: #fff; }
 
+        /* 데이터 뷰어 섹션 */
         .data-viewer { margin-top: 50px; width: 100%; max-width: 1100px; padding: 0 10px; box-sizing: border-box; }
-        .roster-toggle-btn { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #888; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
-        .roster-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #080808; border-radius: 0 0 12px 12px; }
-        .data-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; }
-        .data-list { font-size: 0.7rem; color: #aaa; max-height: 300px; overflow-y: auto; border-top: 1px solid #222; }
+        .roster-toggle-btn { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #888; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 800; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .roster-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #080808; border-radius: 12px; border: 1px solid #222; }
+        
+        .data-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px; }
+        .data-column h3 { font-size: 0.8rem; color: var(--primary); border-bottom: 1px solid #333; padding-bottom: 10px; margin-top: 0; }
+        .data-list { font-size: 0.7rem; color: #aaa; max-height: 400px; overflow-y: auto; }
         .data-item { display: flex; justify-content: space-between; border-bottom: 1px solid #1a1a1a; padding: 6px 0; }
         .rank-S-txt { color: var(--s-rank); font-weight: bold; }
 
+        /* 레전드 콤보 전용 스타일 */
+        .hero-item { border-bottom: 1px solid #222; padding: 10px 0; }
+        .hero-name { color: var(--s-rank); font-weight: 900; font-size: 0.75rem; display: block; margin-bottom: 3px; }
+        .hero-cond { font-size: 0.65rem; color: #777; line-height: 1.4; }
+
+        @media (max-width: 992px) { .data-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 768px) { .grid { grid-template-columns: repeat(2, 1fr); } .data-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -74,9 +81,20 @@
     <button class="btn-draw" onclick="run()">가즈아~</button>
 
     <div class="data-viewer">
-        <button class="roster-toggle-btn" onclick="toggleRoster()">나오는 자장구 리스트</button>
+        <button class="roster-toggle-btn" onclick="toggleRoster()">나오는 자장구 & 레전드 조합 리스트</button>
         <div id="roster-content" class="roster-content">
             <div class="data-grid">
+                <div class="data-column">
+                    <h3>🏆 LEGENDARY COMBOS</h3>
+                    <div id="hero-list" class="data-list">
+                        <div class="hero-item"><span class="hero-name">Tadej Pogačar</span><span class="hero-cond">[프레임] V4Rs / V5Rs / C68<br>[휠셋] Enve SES / Enve PRO 4.5</span></div>
+                        <div class="hero-item"><span class="hero-name">Jonas Vingegaard</span><span class="hero-cond">[프레임] S5 / R5<br>[휠셋] Reserve 40/44, 52/63, 34/37</span></div>
+                        <div class="hero-item"><span class="hero-name">Remco Evenepoel</span><span class="hero-cond">[프레임] Tarmac SL8<br>[휠셋] Roval Rapide CLX</span></div>
+                        <div class="hero-item"><span class="hero-name">M. van der Poel</span><span class="hero-cond">[프레임] Aeroad CFR<br>[휠셋] Dura-Ace C50 / C60</span></div>
+                        <div class="hero-item"><span class="hero-name">Mark Cavendish</span><span class="hero-cond">[프레임] Filante SLR<br>[휠셋] Vision Metron / HED Vanquish</span></div>
+                        <div class="hero-item"><span class="hero-name">Tom Pidcock</span><span class="hero-cond">[프레임] Dogma F<br>[휠셋] Princeton Wake / Peak / Dura-Ace</span></div>
+                    </div>
+                </div>
                 <div class="data-column"><h3>프레임 (<span id="count-f">0</span>)</h3><div id="list-f" class="data-list"></div></div>
                 <div class="data-column"><h3>휠셋 (<span id="count-w">0</span>)</h3><div id="list-w" class="data-list"></div></div>
                 <div class="data-column"><h3>그룹셋 (<span id="count-g">0</span>)</h3><div id="list-g" class="data-list"></div></div>
@@ -85,6 +103,7 @@
     </div>
 
     <script>
+        
         const data = {
     f: [
         // Specialized
@@ -227,13 +246,11 @@
             });
             document.getElementById('total-rank').style.display = 'none';
 
-            // 모든 파츠 개별 롤링 시작
             const timers = {
                 f: startRolling('f', 'f'), w: startRolling('w', 'w'), g: startRolling('g', 'g'),
                 s: startRolling('s', 's'), t: startRolling('t', 't'), p: startRolling('p', 'p')
             };
 
-            // 결과값 고정
             const resF = data.f[Math.floor(Math.random()*data.f.length)];
             const resW = data.w[Math.floor(Math.random()*data.w.length)];
             const resG = data.g[Math.floor(Math.random()*data.g.length)];
@@ -243,20 +260,16 @@
 
             let hero = null;
             const fn = resF.n; const wn = resW.n;
-            if ((fn.includes("Y1Rs") || fn.includes("V5Rs")) && (wn.includes("SES") || wn.includes("PRO 4.5"))) hero = "Tadej Pogačar";
+            if ((fn.includes("V4Rs") || fn.includes("V5Rs") || fn.includes("C68")) && (wn.includes("SES") || wn.includes("PRO 4.5"))) hero = "Tadej Pogačar";
             else if ((fn.includes("S5") || fn.includes("R5")) && (wn.includes("40/44") || wn.includes("52/63") || wn.includes("34/37"))) hero = "Jonas Vingegaard";
-            else if (fn.includes("S-Works Tarmac SL8") && wn.includes("Rapide CLX")) hero = "Remco Evenepoel";
+            else if (fn.includes("Tarmac SL8") && wn.includes("Rapide CLX")) hero = "Remco Evenepoel";
             else if (fn.includes("Aeroad CFR") && (wn.includes("Dura-Ace") || wn.includes("C50") || wn.includes("C60"))) hero = "M. van der Poel";
             else if (fn.includes("Filante SLR") && (wn.includes("Metron") || wn.includes("Vanquish"))) hero = "Mark Cavendish";
             else if (fn.includes("Dogma F") && (wn.includes("Wake") || wn.includes("Peak") || wn.includes("Dura-Ace"))) hero = "Tom Pidcock";
 
-            // 1.5초 동안 모든 카드 동시 롤링
             await new Promise(r => setTimeout(r, 1500));
-
-            // 모든 롤링 타이머 중지
             Object.values(timers).forEach(clearInterval);
 
-            // 모든 파츠 연출을 Promise.all로 동시에 시작
             await Promise.all([
                 finalizeCard('card-f', 'f', resF, (hero && (fn.includes("V4Rs")||fn.includes("V5Rs")||fn.includes("C68")||fn.includes("S5")||fn.includes("R5")||fn.includes("Tarmac")||fn.includes("Aeroad")||fn.includes("Filante")||fn.includes("Dogma"))) ? hero : null),
                 finalizeCard('card-w', 'w', resW, (hero && (wn.includes("SES")||wn.includes("PRO 4.5")||wn.includes("40/44")||wn.includes("52/63")||wn.includes("Rapide")||wn.includes("Dura-Ace")||wn.includes("Metron")||wn.includes("Wake"))) ? hero : null),
@@ -269,7 +282,6 @@
                 })()
             ]);
 
-            // 결과 요약
             const scoreMap = { "S": 4, "A": 3, "B": 2, "C": 1 };
             const avg = (scoreMap[resF.r] + scoreMap[resG.r] + scoreMap[resW.r]) / 3;
             const finalRank = avg >= 3.7 ? "S" : avg >= 3.0 ? "A" : avg >= 2.0 ? "B" : "C";
@@ -302,5 +314,3 @@
     </script>
 </body>
 </html>
-
-
