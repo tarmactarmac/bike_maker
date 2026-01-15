@@ -245,19 +245,35 @@
             const resT = data.t[Math.floor(Math.random()*data.t.length)] + " (" + data.size[Math.floor(Math.random()*data.size.length)] + ")";
             const resP = data.p[Math.floor(Math.random()*data.p.length)];
 
-            // 히어로 체크
+           // 히어로 체크 (선수별 실제 커스텀 세팅 반영)
             let hero = null;
-            const fn = resF.n.toLowerCase(); const wn = resW.n.toLowerCase();
-            if (fn.includes("Y1Rs") && wn.includes("SES 4.5")) hero = "Tadej Pogačar";
-            else if (fn.includes("Y1Rs") && wn.includes("PRO 4.5")) hero = "Tadej Pogačar";
-            else if (fn.includes("V5Rs") && wn.includes("SES 4.5")) hero = "Tadej Pogačar";
-            else if (fn.includes("V5Rs") && wn.includes("PRO 4.5")) hero = "Tadej Pogačar";
-            else if (fn.includes("S5") && wn.includes("40/44")) hero = "Jonas Vingegaard";
-            else if (fn.includes("R5") && wn.includes("40/44")) hero = "Jonas Vingegaard";
-            else if (fn.includes("S5") && wn.includes("52/63")) hero = "Jonas Vingegaard";
-            else if (fn.includes("R5") && wn.includes("52/63")) hero = "Jonas Vingegaard";
-            else if (fn.includes("S-Works Tarmac SL8") && wn.includes("Rapide CLX III")) hero = "Remco Evenepoel";
+            const fn = resF.n; // 대소문자 구분을 위해 원본 이름 사용
+            const wn = resW.n;
 
+            // 1. Tadej Pogačar (UAE Team Emirates) - Colnago + Enve
+            if (fn.includes("V4Rs") || fn.includes("V5Rs") || fn.includes("C68")) {
+                if (wn.includes("SES") || wn.includes("PRO 4.5")) hero = "Tadej Pogačar";
+            }
+            // 2. Jonas Vingegaard (Visma-Lease a Bike) - Cervelo + Reserve
+            else if (fn.includes("S5") || fn.includes("R5")) {
+                if (wn.includes("40/44") || wn.includes("52/63") || wn.includes("34/37")) hero = "Jonas Vingegaard";
+            }
+            // 3. Remco Evenepoel (Soudal Quick-Step) - Tarmac SL8 + Roval
+            else if (fn.includes("Tarmac SL8")) {
+                if (wn.includes("Rapide CLX III")) hero = "Remco Evenepoel";
+            }
+            // 4. Mathieu van der Poel (Alpecin-Deceuninck) - Canyon + Shimano
+            else if (fn.includes("Aeroad CFR")) {
+                if (wn.includes("Dura-Ace") || wn.includes("C50") || wn.includes("C60")) hero = "M. van der Poel";
+            }
+            // 5. Mark Cavendish (Astana Qazaqstan) - Wilier + Vision/HED
+            else if (fn.includes("Filante SLR")) {
+                if (wn.includes("Metron") || wn.includes("Vanquish")) hero = "Mark Cavendish";
+            }
+            // 6. Tom Pidcock (INEOS Grenadiers) - Dogma F + Princeton/Shimano
+            else if (fn.includes("Dogma F")) {
+                if (wn.includes("Wake") || wn.includes("Peak") || wn.includes("Dura-Ace")) hero = "Tom Pidcock";
+            }
             // 순차적 정지 연출
             
             // 1. 프레임 정지
@@ -321,4 +337,5 @@
     </script>
 </body>
 </html>
+
 
