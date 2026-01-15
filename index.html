@@ -3,54 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Road Bike Draft</title>
+    <title>Global Top 20 Bike Draft</title>
     <style>
         :root { --primary: #ff3e3e; --s-rank: #ffcf40; --a-rank: #e2e2e2; --b-rank: #cd7f32; --c-rank: #7a7a7a; }
-        body { background: #0a0a0a; color: white; font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 20px; overflow-x: hidden; }
-        
+        body { background: #0a0a0a; color: white; font-family: 'Pretendard', sans-serif; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 15px; overflow-x: hidden; }
         .header { text-align: center; margin-bottom: 15px; }
-        h1 { font-size: 1.8rem; color: var(--primary); margin: 0; letter-spacing: -1px; text-transform: uppercase; font-weight: 900; }
-        
+        h1 { font-size: 1.6rem; color: var(--primary); margin: 0; letter-spacing: -1px; text-transform: uppercase; font-weight: 900; }
         .total-rank-box { margin-bottom: 20px; padding: 15px 30px; border-radius: 20px; background: #1a1a1a; border: 2px solid #333; text-align: center; display: none; width: 100%; max-width: 500px; box-sizing: border-box; }
-        .total-rank-label { font-size: 0.7rem; color: #888; margin-bottom: 5px; letter-spacing: 1px; }
-        .total-rank-value { font-size: 2rem; font-weight: 900; margin-bottom: 5px; line-height: 1; }
-        .total-rank-desc { font-size: 0.9rem; color: var(--primary); font-weight: 600; word-break: keep-all; }
-
-        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; width: 100%; max-width: 1100px; }
-        
-        .card { background: #151515; border: 1px solid #222; border-radius: 18px; padding: 15px 10px; text-align: center; position: relative; transition: all 0.2s ease; display: flex; flex-direction: column; justify-content: center; height: 110px; box-sizing: border-box; }
-        .card.active { border-color: #444; background: #1c1c1c; }
-        
-        .label { font-size: 0.65rem; color: #555; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; text-transform: uppercase; }
-        .rank-badge { position: absolute; top: 10px; right: 10px; font-size: 0.6rem; font-weight: 900; padding: 3px 8px; border-radius: 50px; display: none; z-index: 5; white-space: nowrap; }
-        .value { font-size: 0.95rem; font-weight: 700; line-height: 1.3; color: #fff; word-break: keep-all; }
-        
+        .total-rank-value { font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; line-height: 1; }
+        .total-rank-desc { font-size: 0.85rem; color: var(--primary); font-weight: 600; }
+        .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 1100px; }
+        .card { background: #151515; border: 1px solid #222; border-radius: 15px; padding: 12px 8px; text-align: center; position: relative; transition: 0.2s; display: flex; flex-direction: column; justify-content: center; height: 100px; box-sizing: border-box; }
+        .label { font-size: 0.6rem; color: #555; font-weight: 800; margin-bottom: 5px; text-transform: uppercase; }
+        .rank-badge { position: absolute; top: 8px; right: 8px; font-size: 0.55rem; font-weight: 900; padding: 2px 6px; border-radius: 50px; display: none; }
+        .value { font-size: 0.78rem; font-weight: 700; line-height: 1.2; color: #fff; word-break: keep-all; }
         @media (max-width: 768px) {
             .grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-            .card { height: 95px; padding: 12px 8px; }
-            .value { font-size: 0.85rem; }
-            .btn-draw { width: 100%; padding: 18px 0 !important; font-size: 1.3rem !important; margin-top: 25px !important; }
+            .card { height: 90px; }
+            .btn-draw { width: 100%; padding: 15px 0 !important; font-size: 1.2rem !important; margin-top: 20px !important; }
         }
-
-        .btn-draw { margin-top: 35px; padding: 20px 100px; font-size: 1.5rem; font-weight: 900; color: white; background: var(--primary); border: none; border-radius: 100px; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(255,62,62,0.3); }
+        .btn-draw { margin-top: 30px; padding: 18px 80px; font-size: 1.4rem; font-weight: 900; color: white; background: var(--primary); border: none; border-radius: 100px; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(255,62,62,0.3); }
         .rolling { opacity: 0.2; filter: blur(3px); }
-
-        .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 10px rgba(255,207,64,0.3); }
+        .rank-S { background: var(--s-rank); color: #000; }
         .rank-A { background: var(--a-rank); color: #000; }
-        .rank-B { background: var(--b-rank); color: #fff; }
-        .rank-C { background: var(--c-rank); color: #fff; }
-        .text-S { color: var(--s-rank); text-shadow: 0 0 10px rgba(255,207,64,0.3); }
+        .text-S { color: var(--s-rank); }
     </style>
 </head>
 <body>
-    <div class="header"><h1>너만의 자전거로 너만의 라이딩을 해</h1></div>
-    
+    <div class="header"><h1>BIKE ROSTER DRAFT</h1></div>
     <div id="total-rank" class="total-rank-box">
-        <div class="total-rank-label" id="top-label">개추 ㅋㅋ!</div>
         <div class="total-rank-value" id="rank-val">-</div>
         <div id="rank-desc" class="total-rank-desc">-</div>
     </div>
-
     <div class="grid" id="main-grid">
         <div class="card" id="card-f"><div class="rank-badge" id="r-f"></div><div class="label">Frame</div><div class="value" id="f">---</div></div>
         <div class="card" id="card-g"><div class="rank-badge" id="r-g"></div><div class="label">Groupset</div><div class="value" id="g">---</div></div>
@@ -59,67 +43,58 @@
         <div class="card"><div class="label">Tire</div><div class="value" id="t">---</div></div>
         <div class="card"><div class="label">Pedal</div><div class="value" id="p">---</div></div>
     </div>
-    
     <button class="btn-draw" onclick="run()">DRAFT START</button>
 
     <script>
-        const rankNames = { "S": "최상급 기함", "A": "상급 퍼포먼스", "B": "중급 가성비", "C": "입문용" };
-        const finalDescriptions = {
-            "S": "🏆 월드투어 프로팀 수준의 천상계 기함!",
-            "A": "🚀 상위 1% 레이싱 머신!",
-            "B": "⚖️ 성능과 가격을 모두 잡은 조합!",
-            "C": "🚴 자전거의 즐거움을 알아가는 입문기!"
-        };
-
         const data = {
             f: [
-                {n:"Colnago V4Rs", r:"S"}, {n:"Cervelo S5 V3", r:"S"}, {n:"Specialized S-Works Tarmac SL8", r:"S"},
-                {n:"Pinarello Dogma F", r:"S"}, {n:"Canyon Aeroad CFR", r:"S"}, {n:"Factor OSTRO VAM", r:"S"},
-                {n:"Trek Madone SLR Gen 7", r:"S"}, {n:"BMC Teammachine SLR01", r:"S"}, {n:"Cervelo R5", r:"S"},
-                {n:"Specialized S-Works Aethos", r:"S"}, {n:"Cannondale SuperSix EVO Lab71", r:"S"}, {n:"Wilier Filante SLR", r:"S"},
-                {n:"Bianchi Oltre RC", r:"S"}, {n:"Scott Addict RC Pro", r:"S"}, {n:"Look 795 Blade RS", r:"S"},
-                {n:"Giant TCR Advanced SL", r:"A"}, {n:"Canyon Ultimate SLX", r:"A"}, {n:"Merida Reacto Team", r:"A"},
-                {n:"Trek Emonda SLR", r:"A"}, {n:"Lapierre Xelius SL", r:"A"}, {n:"Argon18 Gallium Pro", r:"A"},
-                {n:"Giant TCR Advanced Pro", r:"B"}, {n:"Bianchi Aria", r:"B"}, {n:"Canyon Aeroad CF SL", r:"B"},
-                {n:"Merida Scultura 5000", r:"B"}, {n:"Trek Emonda SL", r:"B"}, {n:"Specialized Tarmac SL7 Comp", r:"B"},
-                {n:"Giant Contend AR", r:"C"}, {n:"Merida Scultura 400", r:"C"}, {n:"Trek Domane AL 2", r:"C"},
-                {n:"Specialized Allez", r:"C"}, {n:"Bianchi Via Nirone 7", r:"C"}, {n:"Canyon Endurace AL", r:"C"}
+                // Specialized
+                {n:"S-Works Tarmac SL8", r:"S"}, {n:"S-Works Aethos", r:"S"}, {n:"S-Works Roubaix SL8", r:"S"}, {n:"S-Works Shiv TT", r:"S"}, {n:"Specialized Tarmac SL8 Pro", r:"A"}, {n:"Specialized Aethos Pro", r:"A"}, {n:"Specialized Roubaix SL8 Expert", r:"A"}, {n:"Specialized Allez Sprint", r:"B"}, {n:"Specialized Allez E5", r:"C"},
+                // Trek
+                {n:"Trek Madone SLR 9 Gen 8", r:"S"}, {n:"Trek Emonda SLR 9", r:"S"}, {n:"Trek Domane SLR 9", r:"S"}, {n:"Trek Madone SL 7", r:"A"}, {n:"Trek Emonda SL 7", r:"A"}, {n:"Trek Domane SL 7", r:"A"}, {n:"Trek Emonda SL 5", r:"B"}, {n:"Trek Domane AL 2", r:"C"},
+                // Canyon
+                {n:"Canyon Aeroad CFR", r:"S"}, {n:"Canyon Ultimate CFR", r:"S"}, {n:"Canyon Endurace CFR", r:"S"}, {n:"Canyon Speedmax CFR", r:"S"}, {n:"Canyon Aeroad CF SLX", r:"A"}, {n:"Canyon Ultimate CF SLX", r:"A"}, {n:"Canyon Endurace CF SLX", r:"A"}, {n:"Canyon Aeroad CF SL", r:"B"}, {n:"Canyon Ultimate CF SL", r:"B"}, {n:"Canyon Endurace AL", r:"C"},
+                // Cervelo
+                {n:"Cervelo S5 V3", r:"S"}, {n:"Cervelo R5", r:"S"}, {n:"Cervelo P5", r:"S"}, {n:"Cervelo Soloist", r:"A"}, {n:"Cervelo Caledonia-5", r:"A"}, {n:"Cervelo Caledonia", r:"B"}, {n:"Cervelo R-Series", r:"B"}, {n:"Cervelo Aspero", r:"B"},
+                // Pinarello
+                {n:"Pinarello Dogma F", r:"S"}, {n:"Pinarello Dogma X", r:"S"}, {n:"Pinarello Bolide F", r:"S"}, {n:"Pinarello F9", r:"A"}, {n:"Pinarello F7", r:"A"}, {n:"Pinarello X7", r:"B"}, {n:"Pinarello Prince", r:"B"}, {n:"Pinarello Gan", r:"C"},
+                // Colnago
+                {n:"Colnago V4Rs", r:"S"}, {n:"Colnago C68", r:"S"}, {n:"Colnago G3-X", r:"B"}, {n:"Colnago V3", r:"B"}, {n:"Colnago A1-R", r:"C"},
+                // Cannondale
+                {n:"Cannondale SuperSix EVO Lab71", r:"S"}, {n:"Cannondale SystemSix Hi-MOD", r:"S"}, {n:"Cannondale SuperSix EVO Hi-MOD", r:"A"}, {n:"Cannondale Synapse Carbon", r:"B"}, {n:"Cannondale CAAD13", r:"B"}, {n:"Cannondale Optimo", r:"C"},
+                // Giant
+                {n:"Giant Propel Advanced SL 0", r:"S"}, {n:"Giant TCR Advanced SL 0", r:"S"}, {n:"Giant Defy Advanced SL", r:"S"}, {n:"Giant Propel Advanced Pro", r:"A"}, {n:"Giant TCR Advanced Pro", r:"A"}, {n:"Giant TCR Advanced", r:"B"}, {n:"Giant Contend AR", r:"C"},
+                // BMC
+                {n:"BMC Teammachine SLR01", r:"S"}, {n:"BMC Timemachine Road", r:"S"}, {n:"BMC Roadmachine 01", r:"A"}, {n:"BMC Teammachine SLR", r:"B"}, {n:"BMC Teammachine ALR", r:"C"},
+                // Scott
+                {n:"Scott Foil RC Ultimate", r:"S"}, {n:"Scott Addict RC Ultimate", r:"S"}, {n:"Scott Foil RC Pro", r:"A"}, {n:"Scott Addict 10", r:"B"}, {n:"Scott Speedster 10", r:"C"},
+                // Factor
+                {n:"Factor OSTRO VAM", r:"S"}, {n:"Factor O2 VAM", r:"S"}, {n:"Factor Hanzo", r:"S"}, {n:"Factor OSTRO Gravel", r:"A"}, {n:"Factor O2", r:"B"},
+                // Wilier
+                {n:"Wilier Filante SLR", r:"S"}, {n:"Wilier 0 SLR", r:"S"}, {n:"Wilier Rave SLR", r:"A"}, {n:"Wilier GTR Team", r:"B"}, {n:"Wilier Montegrappa", r:"C"},
+                // Bianchi
+                {n:"Bianchi Oltre RC", r:"S"}, {n:"Bianchi Specialissima RC", r:"S"}, {n:"Bianchi Aria", r:"B"}, {n:"Bianchi Via Nirone 7", r:"C"},
+                // Merida
+                {n:"Merida Reacto Team", r:"S"}, {n:"Merida Scultura Team", r:"S"}, {n:"Merida Scultura 5000", r:"B"}, {n:"Merida Scultura 100", r:"C"},
+                // Look, Argon18, Ridley, Orbea, Lapierre, Time (추가)
+                {n:"Look 795 Blade RS", r:"S"}, {n:"Argon18 Nitrogen Disc", r:"S"}, {n:"Ridley Noah Fast", r:"S"}, {n:"Orbea Orca OMX", r:"S"}, {n:"Lapierre Xelius SL", r:"S"}, {n:"Time Alpe d'Huez 01", r:"S"}
             ],
             g: [
                 {n:"Dura-Ace R9270 Di2", r:"S"}, {n:"SRAM RED AXS (2024)", r:"S"}, {n:"Campagnolo Super Record Wireless", r:"S"},
-                {n:"Ultegra R8170 Di2", r:"A"}, {n:"SRAM Force AXS", r:"A"}, {n:"Shimano Dura-Ace R9170 Di2", r:"A"},
-                {n:"Shimano 105 R7170 Di2", r:"B"}, {n:"SRAM Rival AXS", r:"B"}, {n:"Shimano Ultegra R8000", r:"B"},
-                {n:"Shimano 105 Mechanical", r:"C"}, {n:"Shimano Tiagra", r:"C"}, {n:"Shimano Sora", r:"C"}
+                {n:"Ultegra R8170 Di2", r:"A"}, {n:"SRAM Force AXS", r:"A"}, {n:"Shimano 105 R7170 Di2", r:"B"}, {n:"Shimano 105 Mechanical", r:"C"}
             ],
             w: [
-                {n:"Enve SES 4.5 New Gen", r:"S"}, {n:"Reserve 52/63", r:"S"}, {n:"Roval Rapide CLX 3", r:"S"},
-                {n:"Scope Artech 6", r:"S"}, {n:"Zipp 454 NSW", r:"S"}, {n:"Bora Ultra WTO 45", r:"S"},
-                {n:"Shimano Dura-Ace C50 R9270", r:"S"}, {n:"Bontrager Aeolus RSL 51", r:"S"}, {n:"Princeton Wake 7580", r:"S"},
-                {n:"Cadex 50 Ultra", r:"S"}, {n:"Lightweight Meilenstein", r:"S"}, {n:"Corima MCC DX", r:"S"},
-                {n:"Scope R5 Disc", r:"A"}, {n:"Zipp 404 Firecrest", r:"A"}, {n:"DT Swiss ARC 1400", r:"A"},
-                {n:"HUNT 54 Aerodynamicist", r:"A"}, {n:"Vision Metron 45 SL", r:"A"}, {n:"Roval Alpinist CL II", r:"A"},
-                {n:"Shimano 105 Carbon C46", r:"B"}, {n:"Roval C38", r:"B"}, {n:"Fulcrum Wind 40", r:"B"},
-                {n:"Giant SLR 1 Carbon", r:"B"}, {n:"Bontrager Aeolus Elite", r:"B"},
-                {n:"Shimano RS171", r:"C"}, {n:"Mavic Aksium Disc", r:"C"}, {n:"DT Swiss P1800 Spline", r:"C"}, {n:"Vision Team 35", r:"C"}
+                // Scope
+                {n:"Scope Artech 2 (Hill Climb)", r:"S"}, {n:"Scope Artech 4 (All-road)", r:"S"}, {n:"Scope Artech 6 (Aero)", r:"S"}, {n:"Scope Artech 8 (TT)", r:"S"},
+                // Roval, Zipp, Enve, Campy
+                {n:"Roval Rapide CLX 3", r:"S"}, {n:"Roval Alpinist CLX 3", r:"S"}, {n:"Zipp 454 NSW", r:"S"}, {n:"Zipp 353 NSW", r:"S"}, {n:"Enve SES 4.5 New Gen", r:"S"}, {n:"Bora Ultra WTO 45", r:"S"}, {n:"Dura-Ace C50 R9270", r:"S"}, {n:"Princeton Wake 7580", r:"S"}, {n:"Cadex Max 40", r:"S"}, {n:"Lightweight Meilenstein", r:"S"},
+                {n:"Zipp 404 Firecrest", r:"A"}, {n:"Bontrager Aeolus RSL 51", r:"A"}, {n:"DT Swiss ARC 1400", r:"A"}, {n:"HED Vanquish RC6", r:"A"}, {n:"Hunt 54 Aero", r:"A"}, {n:"Mavic Cosmic SLR 45", r:"A"},
+                {n:"Shimano 105 Carbon C46", r:"B"}, {n:"Roval C38", r:"B"}, {n:"Vision Team 35", r:"B"}, {n:"Mavic Aksium Disc", r:"C"}
             ],
-            s: [
-                "S-Works Power Mirror", "Fizik Vento Argo R1", "Selle Italia SLR Boost", "S-Works Romin EVO Mirror", 
-                "Fizik Antares Versus Evo", "Selle Italia Novus Boost", "Prologo Scratch M5 PAS", "Bontrager Aeolus Pro", 
-                "Selle San Marco Aspide", "PRO Stealth Performance", "Cadex Boost Carbon", "Specialized Power Arc Pro",
-                "Fizik Tempo Argo R3", "Selle Italia Flite Boost", "Syncros Belcarra V", "Fabric Scoop Radius", "Giant Fleet SL"
-            ],
-            t: [
-                "Continental GP5000 S TR", "Vittoria Corsa Next", "Pirelli P ZERO Race", "Schwalbe Pro One TLE", 
-                "Specialized Turbo Cotton", "Goodyear Eagle F1 SuperSport", "Michelin Power Cup", "Vittoria Corsa Speed",
-                "Panaracer Agilest", "Bontrager R3 Hard-Case", "Zipp Tangente Speed", "Veloflex Corsa RACE",
-                "Continental Ultra Sport III", "Vittoria Zaffiro Pro", "Schwalbe Lugano 2"
-            ],
-            p: [
-                "Shimano Dura-Ace PD-R9100", "Look Keo Blade Carbon Ti", "Wahoo Speedplay Zero", "Shimano Ultegra PD-R8000", 
-                "Shimano 105 PD-R7000", "Look Keo Classic 3", "Time Xpro 15 Carbon", "Garmin Rally RS200", 
-                "Favero Assioma Duo", "Shimano PD-RS500", "Wahoo Speedplay Comp"
-            ],
-            size: ["25C", "26C", "28C", "30C", "32C"]
+            s: ["S-Works Power Mirror", "S-Works Romin Mirror", "Fizik Vento Argo R1", "Fizik Antares Versus", "Selle Italia SLR Boost", "Selle Italia Flite Boost", "Prologo Scratch M5", "Prologo Dimension", "Bontrager Aeolus Pro", "Cadex Boost Carbon", "Giant Fleet SL", "PRO Stealth Performance", "Selle San Marco Shortfit", "Selle SMP Dynamic", "Fabric Scoop Pro", "Syncros Belcarra", "Ergon SR Pro", "Brooks Cambium C13"],
+            t: ["Continental GP5000 S TR", "Continental GP5000 AS TR", "Vittoria Corsa PRO", "Vittoria Corsa Next", "Pirelli P ZERO Race TLR", "Pirelli P ZERO Race RS", "Schwalbe Pro One TLE", "Specialized Turbo Cotton", "Specialized S-Works Turbo", "Bontrager R3 Hard-Case", "Goodyear Eagle F1", "Michelin Power Cup", "Panaracer Agilest TLE", "Veloflex Corsa RACE", "Challenge Strada Bianca", "Pirelli P7 Sport"],
+            p: ["Shimano Dura-Ace PD-R9100", "Shimano Ultegra PD-R8000", "Shimano 105 PD-R7000", "Look Keo Blade Carbon Ti", "Look Keo Classic 3", "Wahoo Speedplay Zero Nano", "Wahoo Speedplay Zero", "Time Xpro 15 Carbon", "Time Xpresso 7", "Garmin Rally RS200 (Power)", "Favero Assioma Duo (Power)", "Shimano PD-RS500"],
+            size: ["25C", "28C", "30C"]
         };
 
         function run() {
@@ -127,27 +102,23 @@
             btn.disabled = true;
             document.querySelectorAll('.rank-badge').forEach(el => el.style.display = 'none');
             document.getElementById('total-rank').style.display = 'none';
-
             let count = 0;
             const timer = setInterval(() => {
                 const f = data.f[Math.floor(Math.random()*data.f.length)];
                 const g = data.g[Math.floor(Math.random()*data.g.length)];
                 const w = data.w[Math.floor(Math.random()*data.w.length)];
-
                 document.getElementById('f').innerText = f.n;
                 document.getElementById('g').innerText = g.n;
                 document.getElementById('w').innerText = w.n;
                 document.getElementById('s').innerText = data.s[Math.floor(Math.random()*data.s.length)];
                 document.getElementById('t').innerText = data.t[Math.floor(Math.random()*data.t.length)] + " (" + data.size[Math.floor(Math.random()*data.size.length)] + ")";
                 document.getElementById('p').innerText = data.p[Math.floor(Math.random()*data.p.length)];
-
                 document.querySelectorAll('.value').forEach(v => v.classList.add('rolling'));
-
                 count++;
                 if(count > 25) {
                     clearInterval(timer);
                     btn.disabled = false;
-                    document.querySelectorAll('.value').forEach(v => v.classList.remove('rolling'));
+                    document.querySelectorAll('.rolling').forEach(v => v.classList.remove('rolling'));
                     showResult(f, g, w);
                 }
             }, 60);
@@ -157,22 +128,18 @@
             const parts = {f, g, w};
             let score = 0;
             const scoreMap = { "S": 4, "A": 3, "B": 2, "C": 1 };
-
             let hero = null;
             const fn = f.n.toLowerCase();
             const wn = w.n.toLowerCase();
-
             if (fn.includes("colnago") && wn.includes("enve")) hero = "Tadej Pogačar (UAE)";
             else if (fn.includes("cervelo") && wn.includes("reserve")) hero = "Jonas Vingegaard (Visma)";
             else if (fn.includes("tarmac sl8") && wn.includes("roval")) hero = "Remco Evenepoel (Soudal)";
             else if (fn.includes("madone") && wn.includes("bontrager")) hero = "Mads Pedersen (Trek)";
             else if (fn.includes("dogma") && (fn.includes("shimano") || wn.includes("shimano"))) hero = "Tom Pidcock (INEOS)";
             else if (fn.includes("aeroad") && (fn.includes("shimano") || wn.includes("shimano"))) hero = "Mathieu van der Poel (Alpecin)";
-
             for(let key in parts) {
                 const rankCode = parts[key].r || "C";
                 const badge = document.getElementById('r-' + key);
-                
                 if (hero && (key === 'f' || key === 'w')) {
                     badge.innerText = "⭐ " + hero.split(' ')[0];
                     badge.className = 'rank-badge rank-S';
@@ -183,29 +150,19 @@
                 badge.style.display = 'block';
                 score += scoreMap[rankCode];
             }
-
             const avg = score / 3;
-            let finalRank = "C";
-            if (avg >= 3.7) finalRank = "S";
-            else if (avg >= 3.0) finalRank = "A";
-            else if (avg >= 2.0) finalRank = "B";
-
+            let finalRank = avg >= 3.7 ? "S" : avg >= 3.0 ? "A" : avg >= 2.0 ? "B" : "C";
             const rVal = document.getElementById('rank-val');
             const rDesc = document.getElementById('rank-desc');
-            const rLabel = document.getElementById('top-label');
-
             if (hero) {
-                rLabel.innerText = "LEGENDARY BUILD!";
                 rVal.innerText = "HERO CLASS";
                 rVal.className = "total-rank-value text-S";
                 rDesc.innerText = `🔥 전설의 탄생! ${hero} 세팅!`;
             } else {
-                rLabel.innerText = "CONGRATULATIONS!";
                 rVal.innerText = finalRank + " CLASS";
                 rVal.className = 'total-rank-value text-' + finalRank;
-                rDesc.innerText = finalDescriptions[finalRank];
+                rDesc.innerText = finalRank === "S" ? "🏆 천상계 기함!" : finalRank === "A" ? "🚀 상급 레이싱!" : finalRank === "B" ? "⚖️ 가성비 조합!" : "🚴 입문용!";
             }
-            
             document.getElementById('total-rank').style.display = 'block';
             document.querySelectorAll('.card').forEach(c => c.classList.add('active'));
         }
