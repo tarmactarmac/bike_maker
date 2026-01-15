@@ -137,14 +137,11 @@
         {b:"Lightweight", n:"Meilenstein Evo", r:"S"}, {b:"Lightweight", n:"Fernweg Evo", r:"S"}, {b:"Lightweight", n:"Obermayer Evo", r:"S"},
         {b:"Princeton", n:"Wake 6560 Strada", r:"S"}, {b:"Princeton", n:"Wake 7580", r:"S"}, {b:"Princeton", n:"Peak 4550", r:"S"},
         {b:"Cadex", n:"Max 40", r:"S"}, {b:"Cadex", n:"50 Ultra", r:"S"}, {b:"Cadex", n:"65 Disc", r:"S"},
-        {b:"Shimano", n:"Dura-Ace C36 R9270", r:"S"}, {b:"Shimano", n:"Dura-Ace C50 R9270", r:"S"}, {b:"Shimano", n:"Dura-Ace C60 R9270", r:"S"},
+        {b:"Shimano", n:"Dura-Ace C36", r:"S"}, {b:"Shimano", n:"Dura-Ace C50", r:"S"}, {b:"Shimano", n:"Dura-Ace C60", r:"S"},
         {b:"Campagnolo", n:"Bora Ultra WTO 33", r:"S"}, {b:"Campagnolo", n:"Bora Ultra WTO 45", r:"S"}, {b:"Campagnolo", n:"Bora Ultra WTO 60", r:"S"},
         {b:"Bontrager", n:"Aeolus RSL 37", r:"S"}, {b:"Bontrager", n:"Aeolus RSL 51", r:"S"}, {b:"Bontrager", n:"Aeolus RSL 62", r:"S"},
         {b:"Reserve", n:"40/44", r:"S"}, {b:"Reserve", n:"52/63", r:"S"}, {b:"Reserve", n:"34/37", r:"S"},
-        {b:"Corima", n:"MCC DX 47mm", r:"S"}, {b:"Corima", n:"WS Black DX", r:"S"},
-        {b:"Black Inc", n:"Five", r:"S"}, {b:"Black Inc", n:"Sixty", r:"S"}, {b:"Black Inc", n:"Twenty", r:"S"},
-        {b:"HUNT", n:"Limitless 48 Aerodynamicist", r:"S"}, {b:"HUNT", n:"32 Aerodynamicist UD Carbon", r:"S"},
-        {b:"Partington", n:"R-Series MKII", r:"S"}, {b:"Syncros", n:"Capital SL 40", r:"S"}, {b:"DT Swiss", n:"ARC 1100 DICUT 50", r:"S"},
+        {b:"Black Inc", n:"48|58", r:"S"}, {b:"Black Inc", n:"62", r:"S"},
 
         // --- A RANK ---
         {b:"Roval", n:"Rapide CLX II", r:"A"}, {b:"Roval", n:"Alpinist CLX II", r:"A"},
@@ -173,7 +170,6 @@
         {b:"Mavic", n:"Cosmic SL 45 Disc", r:"B"},
         {b:"Vision", n:"Team 35 Disc", r:"B"}, {b:"Vision", n:"SC 55 Disc", r:"B"}, {b:"Vision", n:"SC 40 Disc", r:"B"},
         {b:"Campagnolo", n:"Scirocco Disc", r:"B"},
-        {b:"HUNT", n:"4 Season Aero", r:"B"}
     ],
 
             s: ["S-Works Power Mirror", "S-Works Romin Mirror", "Fizik Vento Argo R1", "Fizik Antares Versus", "Selle Italia SLR Boost", "Selle Italia Flite Boost", "Prologo Scratch M5", "Prologo Dimension", "Bontrager Aeolus Pro", "Cadex Boost Carbon", "Giant Fleet SL", "PRO Stealth Performance", "Selle San Marco Shortfit", "Selle SMP Dynamic", "Fabric Scoop Pro", "Syncros Belcarra", "Ergon SR Pro", "Brooks Cambium C13"],
@@ -247,9 +243,9 @@
 
             let hero = null;
             const fn = resF.n; const wn = resW.n;
-            if ((fn.includes("Y1Rs") || fn.includes("V5Rs") || fn.includes("C68")) && (wn.includes("SES") || wn.includes("PRO 4.5"))) hero = "Tadej Pogačar";
+            if ((fn.includes("Y1Rs") || fn.includes("V5Rs")) && (wn.includes("SES") || wn.includes("PRO 4.5"))) hero = "Tadej Pogačar";
             else if ((fn.includes("S5") || fn.includes("R5")) && (wn.includes("40/44") || wn.includes("52/63") || wn.includes("34/37"))) hero = "Jonas Vingegaard";
-            else if (fn.includes("Tarmac SL8") && wn.includes("Rapide CLX")) hero = "Remco Evenepoel";
+            else if (fn.includes("S-Works Tarmac SL8") && wn.includes("Rapide CLX")) hero = "Remco Evenepoel";
             else if (fn.includes("Aeroad CFR") && (wn.includes("Dura-Ace") || wn.includes("C50") || wn.includes("C60"))) hero = "M. van der Poel";
             else if (fn.includes("Filante SLR") && (wn.includes("Metron") || wn.includes("Vanquish"))) hero = "Mark Cavendish";
             else if (fn.includes("Dogma F") && (wn.includes("Wake") || wn.includes("Peak") || wn.includes("Dura-Ace"))) hero = "Tom Pidcock";
@@ -306,4 +302,5 @@
     </script>
 </body>
 </html>
+
 
