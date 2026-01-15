@@ -154,7 +154,7 @@
         // Pinarello
         {b:"Pinarello", n:"Dogma F", r:"S"}, {b:"Pinarello", n:"Dogma X", r:"S"}, {b:"Pinarello", n:"F7", r:"A"}, {b:"Pinarello", n:"X7", r:"B"}, {b:"Pinarello", n:"Prince", r:"B"},
         // Colnago
-        {b:"Colnago", n:"Y1Rs", r:"S"}, {b:"Colnago", n:"V5Rs", r:"S"}, {b:"Colnago", n:"V4Rs", r:"S"}, {b:"Colnago", n:"C68", r:"S"},
+        {b:"Colnago", n:"Y1Rs", r:"S"}, {b:"Colnago", n:"V5Rs", r:"S"}, {b:"Colnago", n:"C68", r:"S"},
         // Cannondale
         {b:"Cannondale", n:"SuperSix EVO Lab71", r:"S"}, {b:"Cannondale", n:"SystemSix Hi-MOD", r:"S"}, {b:"Cannondale", n:"SuperSix EVO Hi-MOD", r:"A"}, {b:"Cannondale", n:"Synapse Carbon", r:"B"}, {b:"Cannondale", n:"CAAD13", r:"B"},
         // Giant
@@ -312,17 +312,17 @@
 
             let hero = null;
             const fn = resF.n; const wn = resW.n;
-            if ((fn.includes("V4Rs") || fn.includes("V5Rs") || fn.includes("C68") || fn.includes("Y1Rs")) && (wn.includes("SES") || wn.includes("PRO 4.5"))) hero = "Tadej Pogačar";
+            if ((fn.includes("V5Rs") || fn.includes("Y1Rs")) && (wn.includes("SES") || wn.includes("PRO 4.5"))) hero = "Tadej Pogačar";
             else if ((fn.includes("S5") || fn.includes("R5")) && (wn.includes("40/44") || wn.includes("52/63") || wn.includes("34/37"))) hero = "Jonas Vingegaard";
-            else if (fn.includes("Tarmac SL8") && wn.includes("Rapide CLX")) hero = "Remco Evenepoel";
+            else if ((fn.includes("S-Works Tarmac SL8") || fn.includes("S-Works Shiv TT")) && wn.includes("Rapide CLX III")) hero = "Remco Evenepoel";
             else if (fn.includes("Aeroad CFR") && (wn.includes("Dura-Ace") || wn.includes("C50") || wn.includes("C60"))) hero = "M. van der Poel";
 
             await new Promise(r => setTimeout(r, 1500));
             Object.values(timers).forEach(clearInterval);
 
             await Promise.all([
-                finalizeCard('card-f', 'f', resF, (hero && (fn.includes("V4Rs")||fn.includes("V5Rs")||fn.includes("C68")||fn.includes("Y1Rs")||fn.includes("S5")||fn.includes("R5")||fn.includes("Tarmac")||fn.includes("Aeroad")||fn.includes("Filante")||fn.includes("Dogma"))) ? hero : null),
-                finalizeCard('card-w', 'w', resW, (hero && (wn.includes("SES")||wn.includes("PRO 4.5")||wn.includes("40/44")||wn.includes("52/63")||wn.includes("Rapide")||wn.includes("Dura-Ace")||wn.includes("Metron")||wn.includes("Wake"))) ? hero : null),
+                finalizeCard('card-f', 'f', resF, (hero && (fn.includes("V5Rs")||fn.includes("Y1Rs")||fn.includes("S5")||fn.includes("R5")||fn.includes("S-Works Tarmac SL8")||fn.includes("Aeroad")||fn.includes("S-Works Shiv TT"))) ? hero : null),
+                finalizeCard('card-w', 'w', resW, (hero && (wn.includes("SES")||wn.includes("PRO 4.5")||wn.includes("40/44")||wn.includes("52/63")||wn.includes("Rapide")||wn.includes("Dura-Ace"))) ? hero : null),
                 finalizeCard('card-g', 'g', resG, null),
                 (async () => {
                     document.getElementById('s').innerText = resS;
@@ -369,3 +369,4 @@
     </script>
 </body>
 </html>
+
