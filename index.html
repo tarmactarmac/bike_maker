@@ -10,12 +10,10 @@
         .header { text-align: center; margin-bottom: 15px; }
         h1 { font-size: 1.6rem; color: var(--primary); margin: 0; letter-spacing: -1px; text-transform: uppercase; font-weight: 900; }
         
-        /* 결과 박스 */
         .total-rank-box { margin-bottom: 20px; padding: 15px 30px; border-radius: 20px; background: #1a1a1a; border: 2px solid #333; text-align: center; display: none; width: 100%; max-width: 500px; box-sizing: border-box; }
         .total-rank-value { font-size: 1.8rem; font-weight: 900; margin-bottom: 5px; line-height: 1; }
         .total-rank-desc { font-size: 0.85rem; color: var(--primary); font-weight: 600; }
 
-        /* 드래프트 카드 그리드 */
         .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; max-width: 1100px; }
         .card { background: #151515; border: 1px solid #222; border-radius: 15px; padding: 12px 8px; text-align: center; position: relative; transition: 0.2s; display: flex; flex-direction: column; justify-content: center; height: 100px; box-sizing: border-box; overflow: hidden; }
         .card.active { border-color: #444; background: #1c1c1c; }
@@ -23,22 +21,18 @@
         .rank-badge { position: absolute; top: 8px; right: 8px; font-size: 0.55rem; font-weight: 900; padding: 2px 6px; border-radius: 50px; display: none; z-index: 10; }
         .value { font-size: 0.78rem; font-weight: 700; line-height: 1.2; color: #fff; word-break: keep-all; min-height: 2.5em; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
 
-        /* 애니메이션 효과 */
         .rolling { opacity: 0.4; filter: blur(2px); transform: scale(0.95); }
         .text-S { color: var(--s-rank); font-weight: 900; text-shadow: 0 0 10px rgba(255, 207, 64, 0.5); animation: flash 0.5s infinite alternate; }
         @keyframes flash { from { opacity: 0.7; } to { opacity: 1; } }
 
-        /* 버튼 */
         .btn-draw { margin-top: 30px; padding: 18px 80px; font-size: 1.4rem; font-weight: 900; color: white; background: var(--primary); border: none; border-radius: 100px; cursor: pointer; transition: 0.3s; box-shadow: 0 8px 20px rgba(255,62,62,0.3); }
         .btn-draw:disabled { background: #333; cursor: not-allowed; box-shadow: none; }
 
-        /* 랭크 색상 */
         .rank-S { background: var(--s-rank); color: #000; box-shadow: 0 0 15px var(--s-rank); }
         .rank-A { background: var(--a-rank); color: #000; }
         .rank-B { background: var(--b-rank); color: #fff; }
         .rank-C { background: var(--c-rank); color: #fff; }
 
-        /* 리스트 뷰어 */
         .data-viewer { margin-top: 50px; width: 100%; max-width: 1100px; padding: 0 10px; box-sizing: border-box; }
         .roster-toggle-btn { width: 100%; background: #1a1a1a; border: 1px solid #333; color: #888; padding: 15px; border-radius: 12px; cursor: pointer; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
         .roster-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #111; border-radius: 0 0 12px 12px; }
@@ -84,7 +78,7 @@
     </div>
 
     <script>
-        const data = {
+        const data = {           
             f: [
                 {b:"Specialized", n:"S-Works Tarmac SL8", r:"S"}, {b:"Specialized", n:"S-Works Aethos", r:"S"}, {b:"Specialized", n:"S-Works Roubaix SL8", r:"S"}, {b:"Specialized", n:"S-orks Shiv TT", r:"S"}, {b:"Specialized", n:"Tarmac SL8 Pro", r:"A"}, {b:"Specialized", n:"Aethos Pro", r:"A"}, {b:"Specialized", n:"Roubaix SL8 Expert", r:"A"}, {b:"Specialized", n:"Tarmac SL7 Comp", r:"B"}, {b:"Specialized", n:"Allez E5", r:"C"},
                 {b:"Trek", n:"Madone SLR 9 Gen 8", r:"S"}, {b:"Trek", n:"Emonda SLR 9", r:"S"}, {b:"Trek", n:"Domane SLR 9", r:"S"}, {b:"Trek", n:"Madone SL 7", r:"A"}, {b:"Trek", n:"Emonda SL 7", r:"A"}, {b:"Trek", n:"Domane SL 7", r:"A"}, {b:"Trek", n:"Emonda SL 5", r:"B"}, {b:"Trek", n:"Domane AL 2", r:"C"},
@@ -98,10 +92,9 @@
                 {b:"Winspace", n:"T1550 (Aero)", r:"S"}, {b:"SEKA", n:"Exceed RDC", r:"S"}, {b:"Evolve", n:"Cima", r:"S"}
             ],
             g: [
-                {b:"Shimano", n:"Dura-Ace R9270 Di2", r:"S"}, {b:"SRAM", n:"RED AXS (2024)", r:"S"},
-                {b:"Shimano", n:"Ultegra R8170 Di2", r:"A"}, {b:"Shimano", n:"105 Mechanical", r:"C"}
-            ],
-          w: [
+                {b:"Shimano", n:"Dura-Ace R9270 Di2", r:"S"}, {b:"SRAM", n:"RED AXS (2024)", r:"S"}, {b:"Campagnolo", n:"Super Record Wireless", r:"S"},
+                {b:"Shimano", n:"Ultegra R8170 Di2", r:"A"}, {b:"SRAM", n:"Force AXS", r:"A"}, {b:"Shimano", n:"105 R7170 Di2", r:"B"}, {b:"Shimano", n:"105 Mechanical", r:"C"}
+            ], w: [
             // --- S RANK (최상급 기함 휠셋) ---
             {b:"Scope", n:"Artech 2 (Hill Climb)", r:"S"}, {b:"Scope", n:"Artech 4 (All-road)", r:"S"}, {b:"Scope", n:"Artech 6 (Aero)", r:"S"},
             {b:"Roval", n:"Rapide CLX III", r:"S"}, {b:"Roval", n:"Alpinist CLX III", r:"S"},
@@ -147,15 +140,23 @@
             {b:"Vision", n:"Team 35 Disc", r:"B"}, {b:"Vision", n:"SC 55 Disc", r:"B"}, {b:"Vision", n:"SC 40 Disc", r:"B"},
             {b:"Campagnolo", n:"Scirocco Disc", r:"B"},
             {b:"Hunt", n:"4 Season Aero", r:"B"}
-        ],
-            s: ["S-Works Power Mirror", "Fizik Vento Argo R1", "Selle Italia SLR Boost"],
-            t: ["Continental GP5000 S TR", "Vittoria Corsa PRO", "Pirelli P ZERO Race"],
-            p: ["Shimano Dura-Ace PD-R9100", "Look Keo Blade", "Wahoo Speedplay Nano"],
+        ],           
+            s: ["S-Works Power Mirror", "S-Works Romin Mirror", "Fizik Vento Argo R1", "Fizik Antares Versus", "Selle Italia SLR Boost", "Selle Italia Flite Boost", "Prologo Scratch M5", "Prologo Dimension", "Bontrager Aeolus Pro", "Cadex Boost Carbon", "Giant Fleet SL", "PRO Stealth Performance", "Selle San Marco Shortfit", "Selle SMP Dynamic", "Fabric Scoop Pro", "Syncros Belcarra", "Ergon SR Pro", "Brooks Cambium C13"],
+            t: ["Continental GP5000 S TR", "Continental GP5000 AS TR", "Vittoria Corsa PRO", "Vittoria Corsa Next", "Pirelli P ZERO Race TLR", "Pirelli P ZERO Race RS", "Schwalbe Pro One TLE", "Specialized Turbo Cotton", "Specialized S-Works Turbo", "Bontrager R3 Hard-Case", "Goodyear Eagle F1", "Michelin Power Cup", "Panaracer Agilest TLE", "Veloflex Corsa RACE", "Challenge Strada Bianca", "Pirelli P7 Sport"],
+            p: ["Shimano Dura-Ace PD-R9100", "Shimano Ultegra PD-R8000", "Shimano 105 PD-R7000", "Look Keo Blade Carbon Ti", "Look Keo Classic 3", "Wahoo Speedplay Zero Nano", "Wahoo Speedplay Zero", "Time Xpro 15 Carbon", "Time Xpresso 7", "Garmin Rally RS200 (Power)", "Favero Assioma Duo (Power)", "Shimano PD-RS500"],
             size: ["25C", "28C", "30C"]
         };
 
+        // 특정 카드에 뱃지 표시하는 함수
+        function setBadge(id, rank, hero) {
+            const badge = document.getElementById('r-' + id);
+            badge.innerText = hero ? "⭐ " + hero.split(' ')[0] : rank;
+            badge.className = 'rank-badge rank-' + rank;
+            badge.style.display = 'block';
+        }
+
         // S급 등장 연출 (등급 -> 제조사 -> 모델)
-        async function animateValue(id, item) {
+        async function animateValue(id, item, hero) {
             const el = document.getElementById(id);
             el.classList.remove('rolling');
             
@@ -168,6 +169,8 @@
             } else {
                 el.innerText = item.n;
             }
+            // 연출이 끝난 후 뱃지 표시
+            setBadge(id, item.r, hero);
         }
 
         async function run() {
@@ -175,62 +178,82 @@
             btn.disabled = true;
             document.querySelectorAll('.rank-badge').forEach(el => el.style.display = 'none');
             document.getElementById('total-rank').style.display = 'none';
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
 
-            // 롤링 시작
             const values = document.querySelectorAll('.value');
             values.forEach(v => v.classList.add('rolling'));
 
-            let count = 0;
-            const timer = setInterval(() => {
+            // 롤링 간이 타이머
+            const rollingInterval = setInterval(() => {
                 document.getElementById('f').innerText = data.f[Math.floor(Math.random()*data.f.length)].n;
-                document.getElementById('g').innerText = data.g[Math.floor(Math.random()*data.g.length)].n;
                 document.getElementById('w').innerText = data.w[Math.floor(Math.random()*data.w.length)].n;
+                document.getElementById('g').innerText = data.g[Math.floor(Math.random()*data.g.length)].n;
                 document.getElementById('s').innerText = data.s[Math.floor(Math.random()*data.s.length)];
                 document.getElementById('t').innerText = data.t[Math.floor(Math.random()*data.t.length)];
                 document.getElementById('p').innerText = data.p[Math.floor(Math.random()*data.p.length)];
-                count++;
-                if (count > 20) clearInterval(timer);
             }, 60);
 
-            await new Promise(r => setTimeout(r, 1500)); // 1.5초 후 멈춤 시작
-
-            // 결과 선정
+            // 최종 결과 미리 선정
             const resF = data.f[Math.floor(Math.random()*data.f.length)];
-            const resG = data.g[Math.floor(Math.random()*data.g.length)];
             const resW = data.w[Math.floor(Math.random()*data.w.length)];
+            const resG = data.g[Math.floor(Math.random()*data.g.length)];
+            const resS = data.s[Math.floor(Math.random()*data.s.length)];
+            const resT = data.t[Math.floor(Math.random()*data.t.length)] + " (" + data.size[Math.floor(Math.random()*data.size.length)] + ")";
+            const resP = data.p[Math.floor(Math.random()*data.p.length)];
 
-            // 카드별 순차 중지 및 애니메이션
-            await animateValue('f', resF);
-            await animateValue('g', resG);
-            await animateValue('w', resW);
+            // 히어로 체크
+            let hero = null;
+            const fn = resF.n.toLowerCase();
+            const wn = resW.n.toLowerCase();
+            if (fn.includes("colnago") && wn.includes("enve")) hero = "Tadej Pogačar (UAE)";
+            else if (fn.includes("cervelo") && wn.includes("reserve")) hero = "Jonas Vingegaard (Visma)";
+            else if (fn.includes("tarmac sl8") && wn.includes("roval")) hero = "Remco Evenepoel (Soudal)";
+            else if (fn.includes("madone") && wn.includes("bontrager")) hero = "Mads Pedersen (Trek)";
+            else if (fn.includes("dogma") && (fn.includes("shimano") || wn.includes("shimano"))) hero = "Tom Pidcock (INEOS)";
+            else if (fn.includes("aeroad") && (fn.includes("shimano") || wn.includes("shimano"))) hero = "Mathieu van der Poel (Alpecin)";
 
-            // 나머지 파츠 즉시 중지
+            // 1. 프레임 멈춤
+            await new Promise(r => setTimeout(r, 1000));
+            await animateValue('f', resF, (hero && (fn.includes("colnago") || fn.includes("cervelo") || fn.includes("tarmac") || fn.includes("madone") || fn.includes("dogma") || fn.includes("aeroad"))) ? hero : null);
+
+            // 2. 휠셋 멈춤
+            await new Promise(r => setTimeout(r, 800));
+            await animateValue('w', resW, (hero && (wn.includes("enve") || wn.includes("reserve") || wn.includes("roval") || wn.includes("bontrager") || wn.includes("shimano"))) ? hero : null);
+
+            // 3. 그룹셋 멈춤
+            await new Promise(r => setTimeout(r, 800));
+            await animateValue('g', resG, null);
+            setBadge('g', resG.r, null);
+
+            // 4. 나머지 파츠 멈춤
+            clearInterval(rollingInterval);
+            document.getElementById('s').innerText = resS;
+            document.getElementById('t').innerText = resT;
+            document.getElementById('p').innerText = resP;
             document.querySelectorAll('.rolling').forEach(v => v.classList.remove('rolling'));
             
-            showResult(resF, resG, resW);
+            showResult(resF, resG, resW, hero);
             btn.disabled = false;
         }
 
-        function showResult(f, g, w) {
+        function showResult(f, g, w, hero) {
             const scoreMap = { "S": 4, "A": 3, "B": 2, "C": 1 };
-            const parts = {f, g, w};
-            let score = 0;
-
-            for (let key in parts) {
-                const r = parts[key].r;
-                const badge = document.getElementById('r-' + key);
-                badge.innerText = r;
-                badge.className = 'rank-badge rank-' + r;
-                badge.style.display = 'block';
-                score += scoreMap[r];
-            }
-
+            const score = scoreMap[f.r] + scoreMap[g.r] + scoreMap[w.r];
             const avg = score / 3;
             const finalRank = avg >= 3.7 ? "S" : avg >= 3.0 ? "A" : avg >= 2.0 ? "B" : "C";
             
-            document.getElementById('rank-val').innerText = finalRank + " CLASS";
-            document.getElementById('rank-val').className = 'total-rank-value text-' + (finalRank === 'S' ? 'S' : '');
-            document.getElementById('rank-desc').innerText = finalRank === 'S' ? "🏆 천상계 기함 세팅 완료!" : "🚴 즐거운 라이딩 되세요!";
+            const rVal = document.getElementById('rank-val');
+            const rDesc = document.getElementById('rank-desc');
+            
+            if (hero) {
+                rVal.innerText = "HERO CLASS";
+                rVal.className = "total-rank-value text-S";
+                rDesc.innerText = `🔥 전설의 탄생! ${hero} 세팅!`;
+            } else {
+                rVal.innerText = finalRank + " CLASS";
+                rVal.className = 'total-rank-value text-' + (finalRank === 'S' ? 'S' : '');
+                rDesc.innerText = finalRank === 'S' ? "🏆 천상계 기함 세팅 완료!" : "🚴 즐거운 라이딩 되세요!";
+            }
             document.getElementById('total-rank').style.display = 'block';
             document.querySelectorAll('.card').forEach(c => c.classList.add('active'));
         }
@@ -255,4 +278,3 @@
     </script>
 </body>
 </html>
-
