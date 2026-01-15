@@ -85,11 +85,11 @@
         <div id="roster-content" class="roster-content">
             <div class="data-grid">
                 <div class="data-column">
-                    <h3>🏆 LEGENDARY COMBOS</h3>
+                    <h3>🏆 레전더리 조합 🏆</h3>
                     <div id="hero-list" class="data-list">
-                        <div class="hero-item"><span class="hero-name">Tadej Pogačar</span><span class="hero-cond">[프레임] V4Rs / V5Rs / C68<br>[휠셋] Enve SES / Enve PRO 4.5</span></div>
+                        <div class="hero-item"><span class="hero-name">Tadej Pogačar</span><span class="hero-cond">[프레임] Y1Rs / V5Rs<br>[휠셋] Enve SES / Enve PRO 4.5</span></div>
                         <div class="hero-item"><span class="hero-name">Jonas Vingegaard</span><span class="hero-cond">[프레임] S5 / R5<br>[휠셋] Reserve 40/44, 52/63, 34/37</span></div>
-                        <div class="hero-item"><span class="hero-name">Remco Evenepoel</span><span class="hero-cond">[프레임] Tarmac SL8<br>[휠셋] Roval Rapide CLX</span></div>
+                        <div class="hero-item"><span class="hero-name">Remco Evenepoel</span><span class="hero-cond">[프레임] S-Works Tarmac SL8 / S-Works Shiv TT<br>[휠셋] Roval Rapide CLX</span></div>
                         <div class="hero-item"><span class="hero-name">M. van der Poel</span><span class="hero-cond">[프레임] Aeroad CFR<br>[휠셋] Dura-Ace C50 / C60</span></div>
                         <div class="hero-item"><span class="hero-name">Mark Cavendish</span><span class="hero-cond">[프레임] Filante SLR<br>[휠셋] Vision Metron / HED Vanquish</span></div>
                         <div class="hero-item"><span class="hero-name">Tom Pidcock</span><span class="hero-cond">[프레임] Dogma F<br>[휠셋] Princeton Wake / Peak / Dura-Ace</span></div>
@@ -260,9 +260,9 @@
 
             let hero = null;
             const fn = resF.n; const wn = resW.n;
-            if ((fn.includes("V4Rs") || fn.includes("V5Rs") || fn.includes("C68")) && (wn.includes("SES") || wn.includes("PRO 4.5"))) hero = "Tadej Pogačar";
+            if ((fn.includes("Y1Rs") || fn.includes("V5Rs")) && (wn.includes("SES") || wn.includes("PRO 4.5"))) hero = "Tadej Pogačar";
             else if ((fn.includes("S5") || fn.includes("R5")) && (wn.includes("40/44") || wn.includes("52/63") || wn.includes("34/37"))) hero = "Jonas Vingegaard";
-            else if (fn.includes("Tarmac SL8") && wn.includes("Rapide CLX")) hero = "Remco Evenepoel";
+            else if ((fn.includes("S-Works Tarmac SL8")|| fn.includes("S-Works Shiv TT")) && wn.includes("Rapide CLX")) hero = "Remco Evenepoel";
             else if (fn.includes("Aeroad CFR") && (wn.includes("Dura-Ace") || wn.includes("C50") || wn.includes("C60"))) hero = "M. van der Poel";
             else if (fn.includes("Filante SLR") && (wn.includes("Metron") || wn.includes("Vanquish"))) hero = "Mark Cavendish";
             else if (fn.includes("Dogma F") && (wn.includes("Wake") || wn.includes("Peak") || wn.includes("Dura-Ace"))) hero = "Tom Pidcock";
@@ -314,3 +314,4 @@
     </script>
 </body>
 </html>
+
